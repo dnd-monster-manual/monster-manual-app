@@ -1,0 +1,331 @@
+<form [formGroup]="monsterForm">
+  <div class="form-group">
+    <label class="form-label-lg">Name</label>
+    <input type="text" formControlName="name" class="form-control form-control-lg" placeholder="Enter the monster's name">
+    <small class="form-text text-muted">URL: monsters/{{monster.url}}</small>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-12 col-sm-4">
+      <label>Size</label>
+      <ng-select formControlName="size" [items]="sizes" [selectOnTab]="true" placeholder="Size"></ng-select>
+    </div>
+    <div class="form-group col-12 col-sm-4">
+      <label>Type</label>
+      <ng-select formControlName="monsterType" [items]="types" [selectOnTab]="true" placeholder="Type"></ng-select>
+    </div>
+    <div class="form-group col-12 col-sm-4">
+      <label>Alignment</label>
+      <ng-select formControlName="alignment" [items]="alignments" [selectOnTab]="true" placeholder="Alignment"></ng-select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Tags</label>
+    <ng-select formControlName="selectedTags" [items]="tags" [selectOnTab]="true" [hideSelected]="true" placeholder="Tags" multiple="true" [addTag]="true"></ng-select>
+    <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
+  </div>
+
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-3 col-sm-2 col-md-1">
+      <label>AC</label>
+      <input type="number" class="form-control" placeholder="AC">
+    </div>
+    <div class="form-group col-9 col-sm-4 col-md-5">
+      <label>AC note</label>
+      <input type="text" class="form-control" placeholder="AC notes, source, etc.">
+    </div>
+    <div class="form-group col-3 col-sm-2 col-md-1">
+      <label>HP</label>
+      <input type="number" class="form-control" placeholder="HP">
+    </div>
+    <div class="form-group col-9 col-sm-4 col-md-5">
+      <label>Hit dice</label>
+      <input type="text" class="form-control" placeholder="Hit dice, 1d8+2, etc.">
+    </div>
+  </div>
+
+  <div class="form-row" formArrayName="speeds" *ngFor="let speedGroup of speeds.controls; let i = index">
+    <div [formGroupName]="i">
+      <div class="form-group col-6 col-lg-2">
+        <label>Speed</label>
+        <ng-select formControlName="speedType" [items]="speeds" [selectOnTab]="true" placeholder="Speed Type"></ng-select>
+      </div>
+      <div class="form-group col-6 col-lg-2">
+        <label>Distance</label>
+        <div class="input-group">
+          <input formControlName="speedDistance" type="number" class="form-control" placeholder="Distance">
+          <div class="input-group-append">
+            <span class="input-group-text">ft.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 col-lg-4">
+      <label class="invisible d-none d-lg-inline-block">Add Speed</label>
+      <button class="btn btn-outline-secondary btn-block">Add Speed</button>
+    </div>
+  </div>
+
+  <hr>
+  <h5>Ability Scores</h5>
+  <div class="form-row">
+    <div class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores">
+      <label>{{ability}}</label>
+      <input type="number" class="form-control" placeholder="{{ability}}">
+    </div>
+  </div>
+  <h5>Saving Throws</h5>
+  <div class="form-row">
+    <div class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores">
+      <label>{{ability}}</label>
+      <input type="number" class="form-control" placeholder="{{ability}}">
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label>Damage Immunities</label>
+      <ng-select [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Immunities" multiple="true"></ng-select>
+    </div>
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label>Damage Resistances</label>
+      <ng-select [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Resistances" multiple="true"></ng-select>
+    </div>
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label>Damage Vulnerabilities</label>
+      <ng-select [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Vulnerabilities" multiple="true"></ng-select>
+    </div>
+    <div class="form-group col-12 col-md-6 col-lg-3">
+      <label>Condition Immunities</label>
+      <ng-select [items]="conditions" [selectOnTab]="true" [hideSelected]="true" placeholder="Condition Immunities" multiple="true"></ng-select>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-7 col-lg-2">
+      <label>Skill</label>
+      <ng-select [items]="skills" [selectOnTab]="true" placeholder="Skill"></ng-select>
+    </div>
+    <div class="form-group col-5 col-lg-2">
+      <label>Bonus</label>
+      <div class="input-group">
+        <input type="number" class="form-control" placeholder="Bonus">
+        <div class="input-group-append">
+          <span class="input-group-text">ft.</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 col-lg-4">
+      <label class="invisible d-none d-lg-inline-block">Add Skill</label>
+      <button class="btn btn-outline-secondary btn-block">Add Skill</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row">
+    <div class="form-group col-7 col-lg-2">
+      <label>Sense</label>
+      <ng-select [items]="senses" [selectOnTab]="true" placeholder="Sense"></ng-select>
+      <small class="form-text text-muted">Telepathy is included here</small>
+    </div>
+    <div class="form-group col-5 col-lg-2">
+      <label>Distance</label>
+      <div class="input-group">
+        <input type="number" class="form-control" placeholder="Distance">
+        <div class="input-group-append">
+          <span class="input-group-text">ft.</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 col-lg-4">
+      <label class="invisible d-none d-lg-inline-block">Add Sense</label>
+      <button class="btn btn-outline-secondary btn-block">Add Sense</button>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Languages</label>
+    <ng-select [items]="languages" [selectOnTab]="true" [hideSelected]="true" placeholder="Languages" [addTag]="true" multiple="true"></ng-select>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-3">
+      <label>CR</label>
+      <input type="number" class="form-control" placeholder="CR">
+    </div>
+    <div class="form-group col-3">
+      <label>XP</label>
+      <input type="number" class="form-control" placeholder="XP">
+    </div>
+    <div class="form-group col-6">
+      <label>Legendary Actions</label>
+      <input type="number" class="form-control" placeholder="Legendary Actions">
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>Abilities</h3>
+  <span class="ability">
+    <div class="form-row">
+      <div class="form-group col-12 col-sm-6">
+        <label>Ability Name</label>
+        <input type="text" class="form-control" placeholder="Ability name">
+      </div>
+      <div class="form-group col-12 col-sm-6 col-lg-3">
+        <label>Ability Type</label>
+        <ng-select [items]="ability_types" [selectOnTab]="true" placeholder="Ability Type"></ng-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Abilty text</label>
+      <textarea class="form-control" rows="3" placeholder="Enter the ability effect text"></textarea>
+    </div>
+  </span>
+  <button class="btn btn-outline-secondary btn-block">Add Ability</button>
+
+  <hr>
+
+  <h3>Attacks</h3>
+  <span class="attack">
+    <div class="form-row">
+      <div class="form-group col-12 col-sm-6">
+        <label>Attack Name</label>
+        <input type="text" class="form-control" placeholder="Attack Name">
+      </div>
+      <div class="form-group col-12 col-sm-6 col-lg-3">
+        <label>Attack Type</label>
+        <input type="text" class="form-control" placeholder="Attack Type">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-6 col-sm-4 col-lg-2">
+        <input type="number" class="form-control" placeholder="To hit">
+      </div>
+      <div class="form-group col-6 col-sm-4 col-lg-2">
+        <div class="input-group">
+          <input type="number" class="form-control" placeholder="Reach">
+          <div class="input-group-append">
+            <span class="input-group-text">ft.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-sm-4 col-lg-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Range">
+          <div class="input-group-append">
+            <span class="input-group-text">ft.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-12 col-lg-6">
+        <input type="text" class="form-control" placeholder="Targets">
+      </div>
+      <div class="form-group col-4 col-lg-2">
+        <input type="number" class="form-control" placeholder="Avg Dmg">
+      </div>
+      <div class="form-group col-8 col-lg-4">
+        <input type="text" class="form-control" placeholder="Damage">
+      </div>
+      <div class="form-group col-12 col-lg-6">
+        <input type="text" class="form-control" placeholder="Damage type">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Effect</label>
+      <textarea class="form-control" rows="3" placeholder="Enter the attack effect text"></textarea>
+    </div>
+  </span>
+  <button class="btn btn-outline-secondary btn-block">Add Attack</button>
+
+  <hr>
+
+  <h3>Other</h3>
+  <div class="form-row">
+    <div class="form-group col-lg-6">
+      <label>Climate</label>
+      <ng-select [items]="climates" [selectOnTab]="true" [hideSelected]="true" placeholder="Climate" [addTag]="true" multiple="true"></ng-select>
+    </div>
+    <div class="form-group col-lg-6">
+      <label>Terrain</label>
+      <ng-select [items]="terrains" [selectOnTab]="true" [hideSelected]="true" placeholder="Terrain" [addTag]="true" multiple="true"></ng-select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Rarity</label>
+      <input type="text" class="form-control" placeholder="Rarity">
+    </div>
+    <div class="form-group col-md-6">
+      <label>Organization</label>
+      <input type="text" class="form-control" placeholder="Organization">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Activity Cycle</label>
+      <input type="text" class="form-control" placeholder="Activity Cycle">
+    </div>
+    <div class="form-group col-md-6">
+      <label>Diet</label>
+      <input type="text" class="form-control" placeholder="Diet">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Physical Description</label>
+    <textarea class="form-control" rows="3" placeholder="Physical Description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Habitat/Society</label>
+    <textarea class="form-control" rows="5" placeholder="Habitat/Society"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Ecology</label>
+    <textarea class="form-control" rows="3" placeholder="Ecology"></textarea>
+  </div>
+
+  <hr>
+
+  <h5>Magical Components</h5>
+  <span class="components">
+    <div class="form-group">
+      <label>Item</label>
+      <input type="text" class="form-control" placeholder="Item name">
+    </div>
+    <div class="form-group">
+      <label>Source</label>
+      <textarea class="form-control" rows="3" placeholder="Source/component"></textarea>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-outline-secondary btn-block">Add Component</button>
+    </div>
+  </span>
+
+  <h5>Monster Relationships</h5>
+  <span class="relationships">
+    <div class="form-group">
+      <label>Monster</label>
+      <ng-select [items]="monsters" [selectOnTab]="true" placeholder="Monster"></ng-select>
+    </div>
+    <div class="form-group">
+      <label>Relationship</label>
+      <textarea class="form-control" rows="3" placeholder="Relationship"></textarea>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-outline-secondary btn-block">Add Relationship</button>
+    </div>
+  </span>
+
+  <div class="form-row justify-content-center">
+    <div class="form-group col-md-4">
+      <button class="btn btn-primary btn-xl btn-block" type="submit">Submit</button>
+    </div>
+  </div>
+</form>

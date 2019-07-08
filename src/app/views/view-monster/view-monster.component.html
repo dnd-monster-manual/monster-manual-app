@@ -1,0 +1,113 @@
+<div class="container">
+  <h1>{{monster.name}}</h1>
+  <p><em>{{monster.size}} {{monster.monster_type}}, {{monster.alignment}}</em></p>
+  <p *ngIf="monster.tags.length > 0">tags: <span *ngFor="let tag of monster.tags">{{tag}},</span></p>
+
+  <div class="row">
+    <div class="col-md-6">
+      <p>AC: {{monster.ac}} <span *ngIf="monster.ac_note">({{monster.ac_note}})</span></p>
+      <p>Hit points: {{monster.hp}} ({{monster.hd}})</p>
+      <p>Speed: <span *ngFor="let speed of monster.speeds">{{speed.speed_type}}: {{speed.speed}} ft., </span></p>
+      <table class="table">
+        <thead>
+          <tr>
+            <td></td>
+            <th>Str</th>
+            <th>Dex</th>
+            <th>Con</th>
+            <th>Int</th>
+            <th>Wis</th>
+            <th>Cha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ability Scores</td>
+            <td *ngFor="let score of monster.ability_scores">{{score}}</td>
+          </tr>
+          <tr>
+            <td>Saving Throws</td>
+            <td *ngFor="let save of monster.saving_throws">{{save}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="monster.immunities.length > 0">Damage Immunities: <span *ngFor="let imm of monster.immunities">{{imm}}</span></p>
+      <p *ngIf="monster.resistances.length > 0">Damage Resistances: <span *ngFor="let res of monster.resistances">{{res}}</span></p>
+      <p *ngIf="monster.vulnerabilities.length > 0">Damage Vulnerabilities: <span *ngFor="let vul of monster.vulnerabilities">{{vul}}</span></p>
+      <p *ngIf="monster.condition_immunities.length > 0">Condition Immunities: <span *ngFor="let condition of monster.condition_immunities">{{condition}}</span></p>
+      <p *ngIf="monster.senses.length > 0">Senses: <span *ngFor="let sense of monster.senses">{{sense.sense}}: {{sense.distance}} ft., </span></p>
+      <p *ngIf="monster.languages.length > 0">Languages: <span *ngFor="let lang of monster.languages">{{lang}}, </span></p>
+      <p>CR: {{monster.cr}} ({{monster.xp}})</p>
+      <p *ngIf="monster.legendary_actions > 0">Legendary Actions: {{monster.legendary_actions}}</p>
+    </div>
+
+    <div class="col-md-6">
+      <table class="table table-sm table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Bonus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let skill of skills">
+            <td>{{skill.skill}}</td>
+            <td>{{skill.bonus}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <p>Skills: <span *ngFor="let skill of monster.skills">{{skill.skill}}: {{skill.bonus}}, </span></p> -->
+    </div>
+  </div>
+
+  <div class="attacks" *ngIf="monster.attacks.length > 0">
+    <h3>Attacks</h3>
+    <div class="card" *ngFor="let attack of monster.attacks">
+      <div class="card-header">
+        {{attack.weapon}} <em>action</em>
+      </div>
+      <div class="card-body">
+        <div>
+          <em>{{attack.attack_type}}:</em>
+        </div>
+        <div>
+          {{attack.to_hit}} to hit,
+          <span *ngIf="attack.reach">reach {{attack.reach}} ft., </span>
+          <span *ngIf="attack.range">range {{attack.range}} ft., </span>
+          {{attack.num_targets}} target(s).
+        </div>
+        <div>
+          <em>On hit:</em> {{attack.average_damage}} ({{attack.damage}}) {{attack.damage_type}} damage.
+          <div>
+            {{attack.effect}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="abilities" *ngIf="monster.abilities.length > 0">
+    <h3>Abilities</h3>
+    <div class="card" *ngFor="let ability of monster.abilities">
+      <div class="card-header">
+        {{ability.name}} <em>{{ability.ability_type}}</em>
+      </div>
+      <div class="card-body">
+        {{ability.effect}}
+      </div>
+    </div>
+  </div>
+
+  <h3>Other Info</h3>
+  <p>Climate: <span *ngFor="let climate of monster.climate">{{climate}}, </span></p>
+  <p>Terrain: <span *ngFor="let terrain of monster.terrain">{{terrain}}, </span></p>
+  <p>Rarity: {{monster.rarity}}</p>
+  <p>Organization: {{monster.organization}}</p>
+  <p>Activity Cycle: {{monster.activity_cycle}}</p>
+  <p>Diet: {{monster.diet}}</p>
+  <p>Physical Description: {{monster.physical_description}}</p>
+  <p>Habitat/Society: {{monster.habitat_society}}</p>
+  <p>Ecology: {{monster.ecology}}</p>
+  <p *ngIf="monster.item_components.length > 0">Magical Item Components: <span *ngFor="let item of monster.item_components"><em>{{item.item}}</em> - {{item.source}}</span></p>
+  <p *ngIf="monster.monster_relationships.length > 0">Monster Relationships: <span *ngFor="let rel of monster.monster_relationships">{{rel.monster_id}}: {{rel.relationship}}</span></p>
+</div>
