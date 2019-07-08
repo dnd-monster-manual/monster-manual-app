@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { StaticDataService } from '../../services';
 import { Monster } from '../../models';
 
@@ -13,7 +13,7 @@ export class MonsterFormComponent implements OnInit {
 sizes;
 types;
 alignments;
-speeds;
+speedList;
 ability_scores;
 damage_types;
 conditions;
@@ -23,6 +23,10 @@ tags;
 monsterForm: FormGroup;
 
 @Output() submitMonster = new EventEmitter<Monster>();
+
+get speeds(): FormArray {
+  return <FormArray>this.monsterForm.get('speeds');
+}
 
   constructor(private staticDataService: StaticDataService, private formBuilder: FormBuilder) { }
 
@@ -45,6 +49,7 @@ monsterForm: FormGroup;
        acNote: this.monster.ac_note,
        hp: this.monster.hp,
        hd: this.monster.hd,
+       speeds: this.formBuilder.array([this.buildSpeed()]),
        abilityScores: this.formBuilder.array(this.monster.ability_scores),
        savingThrows: this.formBuilder.array(this.monster.saving_throws)
        // speeds: this.formBuilder.array([this.formBuilder.group({
@@ -56,8 +61,18 @@ monsterForm: FormGroup;
     this.monsterForm.patchValue({
       selectedTags: this.monster.tags
     });
+  }
 
-    console.log(this.monsterForm);
+  buildSpeed() {
+    return this.formBuilder.group({
+      speedType: 'Walk',
+      speedDistance: null
+    });
+  }
+
+  addSpeed() {
+    console.log('hi');
+    this.speeds.push(this.buildSpeed());
   }
 
   formatUrl(name) {
@@ -69,7 +84,7 @@ monsterForm: FormGroup;
     this.sizes = this.staticDataService.getSizes();
     this.types = this.staticDataService.getTypes();
     this.alignments = this.staticDataService.getAlignments();
-    this.speeds = this.staticDataService.getSpeeds();
+    this.speedList = this.staticDataService.getSpeeds();
     this.ability_scores = this.staticDataService.getAbilityScores();
     this.damage_types = this.staticDataService.getDamageTypes();
     this.conditions = this.staticDataService.getConditions();
