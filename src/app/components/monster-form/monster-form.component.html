@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <div class="form-row" formArrayName="speeds" *ngFor="let speedGroup of speeds.controls; let i = index">
+  <!-- <div class="form-row" formArrayName="speeds" *ngFor="let speedGroup of speeds.controls; let i = index">
     <div [formGroupName]="i">
       <div class="form-group col-6 col-lg-2">
         <label>Speed</label>
@@ -65,21 +65,21 @@
       <label class="invisible d-none d-lg-inline-block">Add Speed</label>
       <button class="btn btn-outline-secondary btn-block">Add Speed</button>
     </div>
-  </div>
+  </div> -->
 
   <hr>
   <h5>Ability Scores</h5>
   <div class="form-row">
-    <div class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores">
+    <div formArrayName="abilityScores" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores; let i = index">
       <label>{{ability}}</label>
-      <input type="number" class="form-control" placeholder="{{ability}}">
+      <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}">
     </div>
   </div>
   <h5>Saving Throws</h5>
   <div class="form-row">
-    <div class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores">
+    <div formArrayName="savingThrows" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores; let i = index">
       <label>{{ability}}</label>
-      <input type="number" class="form-control" placeholder="{{ability}}">
+      <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}">
     </div>
   </div>
 

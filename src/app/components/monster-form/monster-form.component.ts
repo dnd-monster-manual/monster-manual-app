@@ -45,10 +45,12 @@ monsterForm: FormGroup;
        acNote: this.monster.ac_note,
        hp: this.monster.hp,
        hd: this.monster.hd,
-       speeds: this.formBuilder.array([this.formBuilder.group({
-         speedType: '',
-         speedDistance: null
-       })])
+       abilityScores: this.formBuilder.array(this.monster.ability_scores),
+       savingThrows: this.formBuilder.array(this.monster.saving_throws)
+       // speeds: this.formBuilder.array([this.formBuilder.group({
+       //   speedType: '',
+       //   speedDistance: null
+       // })])
     });
 
     this.monsterForm.patchValue({
