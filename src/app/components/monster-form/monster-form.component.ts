@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { StaticDataService } from '../../services';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { StaticDataService } from '../../services';
+import { Monster } from '../../models';
 
 @Component({
   selector: 'app-monster-form',
@@ -8,7 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./monster-form.component.scss']
 })
 export class MonsterFormComponent implements OnInit {
-@Input() monster;
+@Input() monster = new Monster();
 sizes;
 types;
 alignments;
@@ -21,10 +22,11 @@ ability_types;
 tags;
 monsterForm: FormGroup;
 
+@Output() submitMonster = new EventEmitter<Monster>();
+
   constructor(private staticDataService: StaticDataService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    if(!this.monster) this.newEmptyMonster();
     this.buildForm();
     this.buildStaticData();
     this.monsterForm.get('name').valueChanges.subscribe(
@@ -56,47 +58,6 @@ monsterForm: FormGroup;
     console.log(this.monsterForm);
   }
 
-  newEmptyMonster() {
-    this.monster = {
-      name: null,
-      url: null,
-      size: null,
-      monster_type: null,
-      alignment: null,
-      tags: [],
-      ac: null,
-      ac_note: null,
-      hp: null,
-      hd: null,
-      speeds: [],
-      ability_scores: [],
-      saving_throws: [],
-      skills: [],
-      immunities: [],
-      resistances: [],
-      vulnerabilities: [],
-      condition_immunities: [],
-      senses: [],
-      languages: [],
-      cr: null,
-      xp: null,
-      attacks: [],
-      abilities: [],
-      legendary_actions: null,
-      climate: [],
-      terrain: [],
-      rarity: null,
-      organization: null,
-      activity_cycle: null,
-      diet: null,
-      physical_description: null,
-      habitat_society: null,
-      ecology: null,
-      item_components: [],
-      monster_relationships: []
-    }
-  }
-
   formatUrl(name) {
     var regex = /[^0-9a-zA-Z]/gi;
     return name.toLowerCase().replace(regex,'');
@@ -113,5 +74,9 @@ monsterForm: FormGroup;
     this.senses = this.staticDataService.getSenses();
     this.ability_types = this.staticDataService.getAbilityTypes();
     this.tags = this.staticDataService.getTags();
+  }
+
+  submit() {
+    this.submitMonster.emit(this.monster);
   }
 }

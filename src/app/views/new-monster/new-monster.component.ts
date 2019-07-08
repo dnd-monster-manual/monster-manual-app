@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Monster } from '../../models';
 
 @Component({
   selector: 'app-new-monster',
@@ -11,5 +12,10 @@ export class NewMonsterComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  createMonster(monster: Monster) {
+    console.log(monster);
+    //this.apiService.createMonster(monster);
   }
 }
