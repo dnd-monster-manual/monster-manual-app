@@ -52,10 +52,6 @@ get speeds(): FormArray {
        speeds: this.formBuilder.array([this.buildSpeed()]),
        abilityScores: this.formBuilder.array(this.monster.ability_scores),
        savingThrows: this.formBuilder.array(this.monster.saving_throws)
-       // speeds: this.formBuilder.array([this.formBuilder.group({
-       //   speedType: '',
-       //   speedDistance: null
-       // })])
     });
 
     this.monsterForm.patchValue({
@@ -65,7 +61,7 @@ get speeds(): FormArray {
 
   buildSpeed() {
     return this.formBuilder.group({
-      speedType: 'Walk',
+      speedType: null,
       speedDistance: null
     });
   }
