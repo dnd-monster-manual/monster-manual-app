@@ -4,7 +4,6 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable()
 export class MonsterResolver implements Resolve<any> {
-
   constructor(private apiService: ApiService) {}
 
   resolve(route: ActivatedRouteSnapshot) {

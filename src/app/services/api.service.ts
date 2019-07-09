@@ -26,4 +26,8 @@ export class ApiService {
   getMonsterByName(url): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.ApiBaseUrl+'monsters/' + url, {observe: 'response'});
   }
+
+  createMonster(monster): Observable<HttpResponse<any>> {
+    return this.http.post<any>(this.ApiBaseUrl+'monsters', monster);
+  }
 }

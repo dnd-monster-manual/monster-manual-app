@@ -46,4 +46,8 @@ export class StaticDataService {
   getTags() {
     return ["aarakocra", "shapechanger", "legendary"];
   }
+
+  getSkills() {
+    return ["Acrobatics", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"];
+  }
 }

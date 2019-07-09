@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Monster } from '../../models';
+import { ApiService } from '../../services';
 
 @Component({
   selector: 'app-new-monster',
@@ -8,14 +9,13 @@ import { Monster } from '../../models';
 })
 export class NewMonsterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
 
   }
 
   createMonster(monster: Monster) {
-    console.log(monster);
-    //this.apiService.createMonster(monster);
+    this.apiService.createMonster(monster).subscribe();
   }
 }

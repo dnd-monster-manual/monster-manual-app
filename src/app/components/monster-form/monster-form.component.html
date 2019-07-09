@@ -7,20 +7,20 @@
   <div class="form-row">
     <div class="form-group col-12 col-sm-4">
       <label>Size</label>
-      <ng-select formControlName="size" [items]="sizes" [selectOnTab]="true" placeholder="Size"></ng-select>
+      <ng-select formControlName="size" [items]="sizeList" [selectOnTab]="true" placeholder="Size"></ng-select>
     </div>
     <div class="form-group col-12 col-sm-4">
       <label>Type</label>
-      <ng-select formControlName="monsterType" [items]="types" [selectOnTab]="true" placeholder="Type"></ng-select>
+      <ng-select formControlName="monster_type" [items]="typeList" [selectOnTab]="true" placeholder="Type"></ng-select>
     </div>
     <div class="form-group col-12 col-sm-4">
       <label>Alignment</label>
-      <ng-select formControlName="alignment" [items]="alignments" [selectOnTab]="true" placeholder="Alignment"></ng-select>
+      <ng-select formControlName="alignment" [items]="alignmentList" [selectOnTab]="true" placeholder="Alignment"></ng-select>
     </div>
   </div>
   <div class="form-group">
     <label>Tags</label>
-    <ng-select formControlName="selectedTags" [items]="tags" [selectOnTab]="true" [hideSelected]="true" placeholder="Tags" multiple="true" [addTag]="true"></ng-select>
+    <ng-select formControlName="tags" [items]="tagList" [selectOnTab]="true" [hideSelected]="true" placeholder="Tags" multiple="true" [addTag]="true"></ng-select>
     <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
   </div>
 
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group col-9 col-sm-4 col-md-5">
       <label>AC note</label>
-      <input formControlName="acNote" type="text" class="form-control" placeholder="AC notes, source, etc.">
+      <input formControlName="ac_note" type="text" class="form-control" placeholder="AC notes, source, etc.">
     </div>
     <div class="form-group col-3 col-sm-2 col-md-1">
       <label>HP</label>
@@ -45,16 +45,16 @@
     </div>
   </div>
 
-  <div formArrayName="speeds" *ngFor="let speedGroup of speeds.controls; let i = index">
+  <div formArrayName="speeds" *ngFor="let speedGroup of monsterForm.get('speeds').controls; let i = index">
     <div [formGroupName]="i" class="form-row">
       <div class="form-group col-6">
         <label>Speed</label>
-        <ng-select formControlName="speedType" [items]="speedList" [selectOnTab]="true" placeholder="Speed Type"></ng-select>
+        <ng-select formControlName="speed_type" [items]="speedList" [selectOnTab]="true" placeholder="Speed Type"></ng-select>
       </div>
       <div class="form-group col-6">
         <label>Distance</label>
         <div class="input-group">
-          <input formControlName="speedDistance" type="number" class="form-control" placeholder="Distance">
+          <input formControlName="speed" type="number" class="form-control" placeholder="Distance">
           <div class="input-group-append">
             <span class="input-group-text">ft.</span>
           </div>
@@ -66,14 +66,16 @@
   <div class="form-row">
     <div class="form-group col-4">
       <!-- <label class="invisible d-none d-lg-inline-block">Add Speed</label> -->
-      <button (click)="addSpeed" class="btn btn-outline-secondary btn-block" type="button">Add Speed</button>
+      <button (click)="addSpeed()" class="btn btn-outline-secondary btn-block" type="button">Add Speed</button>
     </div>
   </div>
 
   <div class="form-row">
-    <div class="card">
-      <div class="card-body">
-        {{ monsterForm.value | json }}
+    <div class="card bg-light border-0">
+      <div class="card-body text-muted">
+        <samp>
+          {{ monsterForm.value | json }}
+        </samp>
       </div>
     </div>
   </div>
@@ -81,14 +83,14 @@
   <hr>
   <h5>Ability Scores</h5>
   <div class="form-row">
-    <div formArrayName="abilityScores" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores; let i = index">
+    <div formArrayName="ability_scores" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of abilityScoreList; let i = index">
       <label>{{ability}}</label>
       <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}">
     </div>
   </div>
   <h5>Saving Throws</h5>
   <div class="form-row">
-    <div formArrayName="savingThrows" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of ability_scores; let i = index">
+    <div formArrayName="saving_throws" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of abilityScoreList; let i = index">
       <label>{{ability}}</label>
       <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}">
     </div>
@@ -99,50 +101,59 @@
   <div class="form-row">
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Damage Immunities</label>
-      <ng-select formControlName="immunities" [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Immunities" multiple="true"></ng-select>
+      <ng-select formControlName="immunities" [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Immunities" multiple="true"></ng-select>
     </div>
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Damage Resistances</label>
-      <ng-select formControlName="resistances" [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Resistances" multiple="true"></ng-select>
+      <ng-select formControlName="resistances" [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Resistances" multiple="true"></ng-select>
     </div>
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Damage Vulnerabilities</label>
-      <ng-select formControlName="vulnerabilities" [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Vulnerabilities" multiple="true"></ng-select>
+      <ng-select formControlName="vulnerabilities" [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Vulnerabilities" multiple="true"></ng-select>
     </div>
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Condition Immunities</label>
-      <ng-select formControlName="condition_immunities" [items]="conditions" [selectOnTab]="true" [hideSelected]="true" placeholder="Condition Immunities" multiple="true"></ng-select>
+      <ng-select formControlName="condition_immunities" [items]="conditionList" [selectOnTab]="true" [hideSelected]="true" placeholder="Condition Immunities" multiple="true"></ng-select>
     </div>
   </div>
 
   <hr>
 
-  <div class="form-row">
-    <div class="form-group col-7 col-lg-2">
+<div formArrayName="skills" *ngFor="let skillGroup of monsterForm.get('skills').controls; let i = index">
+  <div [formGroupName]="i" class="form-row">
+    <div class="form-group col-7">
       <label>Skill</label>
-      <ng-select [items]="skills" [selectOnTab]="true" placeholder="Skill"></ng-select>
+      <ng-select formControlName="skill" [items]="skillList" [selectOnTab]="true" placeholder="Skill"></ng-select>
     </div>
-    <div class="form-group col-5 col-lg-2">
+    <div class="form-group col-4">
       <label>Bonus</label>
       <div class="input-group">
-        <input type="number" class="form-control" placeholder="Bonus">
+        <input formControlName="bonus" type="number" class="form-control" placeholder="Bonus">
         <div class="input-group-append">
           <span class="input-group-text">ft.</span>
         </div>
       </div>
     </div>
-    <div class="form-group col-12 col-lg-4">
-      <label class="invisible d-none d-lg-inline-block">Add Skill</label>
-      <button class="btn btn-outline-secondary btn-block">Add Skill</button>
+    <div class="col-1">
+      <label class="invisible d-none d-lg-inline-block">Remove</label>
+      <button class="btn btn-outline-danger" type="button"><i class="fas fa-times"></i></button>
     </div>
   </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-12 col-lg-4">
+    <!-- <label class="invisible d-none d-lg-inline-block">Add Skill</label> -->
+    <button (click)="addSkill()" class="btn btn-outline-secondary btn-block" type="button">Add Skill</button>
+  </div>
+</div>
 
   <hr>
 
   <div class="form-row">
     <div class="form-group col-7 col-lg-2">
       <label>Sense</label>
-      <ng-select [items]="senses" [selectOnTab]="true" placeholder="Sense"></ng-select>
+      <ng-select [items]="senseList" [selectOnTab]="true" placeholder="Sense"></ng-select>
       <small class="form-text text-muted">Telepathy is included here</small>
     </div>
     <div class="form-group col-5 col-lg-2">
@@ -156,12 +167,12 @@
     </div>
     <div class="form-group col-12 col-lg-4">
       <label class="invisible d-none d-lg-inline-block">Add Sense</label>
-      <button class="btn btn-outline-secondary btn-block">Add Sense</button>
+      <button (click)="addSense()" class="btn btn-outline-secondary btn-block" type="button">Add Sense</button>
     </div>
   </div>
   <div class="form-group">
     <label>Languages</label>
-    <ng-select [items]="languages" [selectOnTab]="true" [hideSelected]="true" placeholder="Languages" [addTag]="true" multiple="true"></ng-select>
+    <ng-select [items]="languageList" [selectOnTab]="true" [hideSelected]="true" placeholder="Languages" [addTag]="true" multiple="true"></ng-select>
   </div>
   <div class="form-row">
     <div class="form-group col-3">
@@ -189,7 +200,7 @@
       </div>
       <div class="form-group col-12 col-sm-6 col-lg-3">
         <label>Ability Type</label>
-        <ng-select [items]="ability_types" [selectOnTab]="true" placeholder="Ability Type"></ng-select>
+        <ng-select [items]="abilityTypeList" [selectOnTab]="true" placeholder="Ability Type"></ng-select>
       </div>
     </div>
     <div class="form-group">
@@ -197,7 +208,7 @@
       <textarea class="form-control" rows="3" placeholder="Enter the ability effect text"></textarea>
     </div>
   </span>
-  <button class="btn btn-outline-secondary btn-block">Add Ability</button>
+  <button (click)="addAbility()" class="btn btn-outline-secondary btn-block" type="button">Add Ability</button>
 
   <hr>
 
@@ -251,7 +262,7 @@
       <textarea class="form-control" rows="3" placeholder="Enter the attack effect text"></textarea>
     </div>
   </span>
-  <button class="btn btn-outline-secondary btn-block">Add Attack</button>
+  <button (click)="addAttack()" class="btn btn-outline-secondary btn-block" type="button">Add Attack</button>
 
   <hr>
 
@@ -259,11 +270,11 @@
   <div class="form-row">
     <div class="form-group col-lg-6">
       <label>Climate</label>
-      <ng-select [items]="climates" [selectOnTab]="true" [hideSelected]="true" placeholder="Climate" [addTag]="true" multiple="true"></ng-select>
+      <ng-select [items]="climateList" [selectOnTab]="true" [hideSelected]="true" placeholder="Climate" [addTag]="true" multiple="true"></ng-select>
     </div>
     <div class="form-group col-lg-6">
       <label>Terrain</label>
-      <ng-select [items]="terrains" [selectOnTab]="true" [hideSelected]="true" placeholder="Terrain" [addTag]="true" multiple="true"></ng-select>
+      <ng-select [items]="terrainList" [selectOnTab]="true" [hideSelected]="true" placeholder="Terrain" [addTag]="true" multiple="true"></ng-select>
     </div>
   </div>
   <div class="form-row">
@@ -315,7 +326,7 @@
       <textarea class="form-control" rows="3" placeholder="Source/component"></textarea>
     </div>
     <div class="form-group">
-      <button class="btn btn-outline-secondary btn-block">Add Component</button>
+      <button class="btn btn-outline-secondary btn-block" type="button">Add Component</button>
     </div>
   </span>
 
@@ -323,14 +334,14 @@
   <span class="relationships">
     <div class="form-group">
       <label>Monster</label>
-      <ng-select [items]="monsters" [selectOnTab]="true" placeholder="Monster"></ng-select>
+      <ng-select [items]="monsterList" [selectOnTab]="true" placeholder="Monster"></ng-select>
     </div>
     <div class="form-group">
       <label>Relationship</label>
       <textarea class="form-control" rows="3" placeholder="Relationship"></textarea>
     </div>
     <div class="form-group">
-      <button class="btn btn-outline-secondary btn-block">Add Relationship</button>
+      <button class="btn btn-outline-secondary btn-block" type="button">Add Relationship</button>
     </div>
   </span>
 
