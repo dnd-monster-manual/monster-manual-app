@@ -47,7 +47,7 @@ export class MonsterFormComponent implements OnInit {
        ac_note: this.monster.ac_note,
        hp: this.monster.hp,
        hd: this.monster.hd,
-       speeds: this.formBuilder.array([this.buildSpeed()]),
+       speeds: this.formBuilder.array(this.buildSpeed()),
        ability_scores: this.formBuilder.array(this.monster.ability_scores),
        saving_throws: this.formBuilder.array(this.monster.saving_throws),
        immunities: [this.monster.immunities],
@@ -64,14 +64,23 @@ export class MonsterFormComponent implements OnInit {
   }
 
   buildSpeed() {
-    return this.formBuilder.group({
-      speed_type: null,
-      speed: null
-    });
+    let a: FormArray = [];
+    if(this.monster.speeds.length > 0) {
+      for(let s of this.monster.speeds) {
+        a.push(this.formBuilder.group({
+          speed_type: s.speed_type,
+          speed: s.speed
+        }));
+      }
+    }
+    else {
+      a.push(this.formBuilder.group({ speed_type: null, speed: null }));
+    }
+    return a;
   }
 
   addSpeed() {
-    (<FormArray>this.monsterForm.get('speeds')).push(this.buildSpeed());
+    (<FormArray>this.monsterForm.get('speeds')).push(this.formBuilder.group({ speed_type: null, speed: null }));
   }
 
   buildSkill() {
