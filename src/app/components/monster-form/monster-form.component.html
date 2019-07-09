@@ -99,19 +99,19 @@
   <div class="form-row">
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Damage Immunities</label>
-      <ng-select [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Immunities" multiple="true"></ng-select>
+      <ng-select formControlName="immunities" [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Immunities" multiple="true"></ng-select>
     </div>
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Damage Resistances</label>
-      <ng-select [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Resistances" multiple="true"></ng-select>
+      <ng-select formControlName="resistances" [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Resistances" multiple="true"></ng-select>
     </div>
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Damage Vulnerabilities</label>
-      <ng-select [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Vulnerabilities" multiple="true"></ng-select>
+      <ng-select formControlName="vulnerabilities" [items]="damage_types" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Vulnerabilities" multiple="true"></ng-select>
     </div>
     <div class="form-group col-12 col-md-6 col-lg-3">
       <label>Condition Immunities</label>
-      <ng-select [items]="conditions" [selectOnTab]="true" [hideSelected]="true" placeholder="Condition Immunities" multiple="true"></ng-select>
+      <ng-select formControlName="condition_immunities" [items]="conditions" [selectOnTab]="true" [hideSelected]="true" placeholder="Condition Immunities" multiple="true"></ng-select>
     </div>
   </div>
 

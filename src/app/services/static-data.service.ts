@@ -44,6 +44,6 @@ export class StaticDataService {
   }
 
   getTags() {
-    return["aarakocra", "shapechanger", "legendary"];
+    return ["aarakocra", "shapechanger", "legendary"];
   }
 }

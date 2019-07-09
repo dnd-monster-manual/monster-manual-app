@@ -10,16 +10,16 @@ import { Monster } from '../../models';
 })
 export class MonsterFormComponent implements OnInit {
 @Input() monster = new Monster();
-sizes;
-types;
-alignments;
-speedList;
-ability_scores;
-damage_types;
-conditions;
-senses;
-ability_types;
-tags;
+sizes = [];
+types = [];
+alignments = [];
+speedList = [];
+ability_scores = [];
+damage_types = [];
+conditions = [];
+senses = [];
+ability_types = [];
+tags = [];
 monsterForm: FormGroup;
 
 @Output() submitMonster = new EventEmitter<Monster>();
@@ -31,6 +31,7 @@ get speeds(): FormArray {
   constructor(private staticDataService: StaticDataService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    console.log(this.monster);
     this.buildForm();
     this.buildStaticData();
     this.monsterForm.get('name').valueChanges.subscribe(
@@ -44,18 +45,18 @@ get speeds(): FormArray {
        size: this.monster.size,
        monsterType: this.monster.monster_type,
        alignment: this.monster.alignment,
-       selectedTags: [],
+       selectedTags: [this.monster.tags],
        ac: this.monster.ac,
        acNote: this.monster.ac_note,
        hp: this.monster.hp,
        hd: this.monster.hd,
        speeds: this.formBuilder.array([this.buildSpeed()]),
        abilityScores: this.formBuilder.array(this.monster.ability_scores),
-       savingThrows: this.formBuilder.array(this.monster.saving_throws)
-    });
-
-    this.monsterForm.patchValue({
-      selectedTags: this.monster.tags
+       savingThrows: this.formBuilder.array(this.monster.saving_throws),
+       immunities: [this.monster.immunities],
+       resistances: [this.monster.resistances],
+       vulnerabilities: [this.monster.vulnerabilities],
+       condition_immunities: [this.monster.condition_immunities]
     });
   }
 
