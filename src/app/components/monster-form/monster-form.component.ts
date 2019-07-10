@@ -63,9 +63,8 @@ export class MonsterFormComponent implements OnInit {
     });
   }
 
-  fillFormArray(property) {
-    let a: FormArray = [];
-    //if(this.monster[property].length > 0) {
+  fillFormArray(property: string) {
+    let a = [];
       for(let x of this.monster[property]) {
         let properties = Object.keys(x);
         let fg = new FormGroup({});
@@ -77,82 +76,30 @@ export class MonsterFormComponent implements OnInit {
         }
         a.push(fg);
       }
-    // }
-    // else {
-    //   a.push(this.formBuilder.group({ speed_type: null, speed: null }));
-    // }
     return a;
   }
 
-  // fillSpeed() {
-  //   let a: FormArray = [];
-  //   if(this.monster.speeds.length > 0) {
-  //     for(let s of this.monster.speeds) {
-  //       a.push(this.formBuilder.group({
-  //         speed_type: s.speed_type,
-  //         speed: s.speed
-  //       }));
-  //     }
-  //   }
-  //   else {
-  //     a.push(this.formBuilder.group({ speed_type: null, speed: null }));
-  //   }
-  //   console.log('works', a);
-  //   return a;
-  // }
-
-  addFormGroup(property) {
-
+  addFormGroup(property: string) {
+    let formGroup = new FormGroup({});
+    let properties = Object.keys(this.monster[property][0]);
+    for(let property of properties) {
+      if(property !== '_id') {
+        let formControl = new FormControl(null);
+        formGroup.addControl(property, formControl);
+      }
+    }
+    (<FormArray>this.monsterForm.get(property)).push(formGroup);
   }
 
   addSpeed() {
     (<FormArray>this.monsterForm.get('speeds')).push(this.formBuilder.group({ speed_type: null, speed: null }));
   }
 
-  // buildSkill() {
-  //   return this.formBuilder.group({
-  //     skill: null,
-  //     bonus: null
-  //   });
-  // }
-
   addSkill() {
     (<FormArray>this.monsterForm.get('skills')).push(this.formBuilder.group({ skill: null, bonus: null }));
   }
 
-  // buildSense() {
-  //   return this.formBuilder.group({
-  //     sense: null,
-  //     distance: null
-  //   });
-  // }
-
-  // buildAttack() {
-  //   return this.formBuilder.group({
-  //     weapon: null,
-  //     attack_type: null,
-  //     to_hit: null,
-  //     reach: null,
-  //     range: null,
-  //     num_targets: null,
-  //     average_damage: null,
-  //     damage: null,
-  //     damage_type: null,
-  //     effect: null
-  //   });
-  // }
-  //
-  // buildAbility() {
-  //   return this.formBuilder.group({
-  //     name: null,
-  //     ability_type: null,
-  //     effect: null
-  //   });
-  // }
-
-
-
-  formatUrl(name) {
+  formatUrl(name: string) {
     var regex = /[^0-9a-zA-Z]/gi;
     return name.toLowerCase().replace(regex,'');
   }
