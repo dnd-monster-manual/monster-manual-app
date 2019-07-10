@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { StaticDataService } from '../../services';
 import { Monster } from '../../models';
 
@@ -47,82 +47,108 @@ export class MonsterFormComponent implements OnInit {
        ac_note: this.monster.ac_note,
        hp: this.monster.hp,
        hd: this.monster.hd,
-       speeds: this.formBuilder.array(this.buildSpeed()),
+       speeds: this.formBuilder.array(this.fillFormArray('speeds')),
        ability_scores: this.formBuilder.array(this.monster.ability_scores),
        saving_throws: this.formBuilder.array(this.monster.saving_throws),
        immunities: [this.monster.immunities],
        resistances: [this.monster.resistances],
        vulnerabilities: [this.monster.vulnerabilities],
        condition_immunities: [this.monster.condition_immunities],
-       skills: this.formBuilder.array([this.buildSkill()]),
-       senses: this.formBuilder.array([this.buildSense()]),
+       skills: this.formBuilder.array(this.fillFormArray('skills')),
+       senses: this.formBuilder.array(this.fillFormArray('senses')),
        languages: [this.monster.languages],
        cr: this.monster.cr,
        xp: this.monster.xp,
-       attacks: this.formBuilder.array([this.buildAttack()])
+       attacks: this.formBuilder.array(this.fillFormArray('attacks'))
     });
   }
 
-  buildSpeed() {
+  fillFormArray(property) {
     let a: FormArray = [];
-    if(this.monster.speeds.length > 0) {
-      for(let s of this.monster.speeds) {
-        a.push(this.formBuilder.group({
-          speed_type: s.speed_type,
-          speed: s.speed
-        }));
+    //if(this.monster[property].length > 0) {
+      for(let x of this.monster[property]) {
+        let properties = Object.keys(x);
+        let fg = new FormGroup({});
+        for(let y of properties) {
+          if(y !== '_id') {
+            let fc = new FormControl(x[y]);
+            fg.addControl(y, fc);
+          }
+        }
+        a.push(fg);
       }
-    }
-    else {
-      a.push(this.formBuilder.group({ speed_type: null, speed: null }));
-    }
+    // }
+    // else {
+    //   a.push(this.formBuilder.group({ speed_type: null, speed: null }));
+    // }
     return a;
+  }
+
+  // fillSpeed() {
+  //   let a: FormArray = [];
+  //   if(this.monster.speeds.length > 0) {
+  //     for(let s of this.monster.speeds) {
+  //       a.push(this.formBuilder.group({
+  //         speed_type: s.speed_type,
+  //         speed: s.speed
+  //       }));
+  //     }
+  //   }
+  //   else {
+  //     a.push(this.formBuilder.group({ speed_type: null, speed: null }));
+  //   }
+  //   console.log('works', a);
+  //   return a;
+  // }
+
+  addFormGroup(property) {
+
   }
 
   addSpeed() {
     (<FormArray>this.monsterForm.get('speeds')).push(this.formBuilder.group({ speed_type: null, speed: null }));
   }
 
-  buildSkill() {
-    return this.formBuilder.group({
-      skill: null,
-      bonus: null
-    });
-  }
+  // buildSkill() {
+  //   return this.formBuilder.group({
+  //     skill: null,
+  //     bonus: null
+  //   });
+  // }
 
   addSkill() {
-    (<FormArray>this.monsterForm.get('skills')).push(this.buildSkill());
+    (<FormArray>this.monsterForm.get('skills')).push(this.formBuilder.group({ skill: null, bonus: null }));
   }
 
-  buildSense() {
-    return this.formBuilder.group({
-      sense: null,
-      distance: null
-    });
-  }
+  // buildSense() {
+  //   return this.formBuilder.group({
+  //     sense: null,
+  //     distance: null
+  //   });
+  // }
 
-  buildAttack() {
-    return this.formBuilder.group({
-      weapon: null,
-      attack_type: null,
-      to_hit: null,
-      reach: null,
-      range: null,
-      num_targets: null,
-      average_damage: null,
-      damage: null,
-      damage_type: null,
-      effect: null
-    });
-  }
-
-  buildAbility() {
-    return this.formBuilder.group({
-      name: null,
-      ability_type: null,
-      effect: null
-    });
-  }
+  // buildAttack() {
+  //   return this.formBuilder.group({
+  //     weapon: null,
+  //     attack_type: null,
+  //     to_hit: null,
+  //     reach: null,
+  //     range: null,
+  //     num_targets: null,
+  //     average_damage: null,
+  //     damage: null,
+  //     damage_type: null,
+  //     effect: null
+  //   });
+  // }
+  //
+  // buildAbility() {
+  //   return this.formBuilder.group({
+  //     name: null,
+  //     ability_type: null,
+  //     effect: null
+  //   });
+  // }
 
 
 

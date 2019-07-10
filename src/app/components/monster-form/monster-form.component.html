@@ -70,17 +70,8 @@
     </div>
   </div>
 
-  <div class="form-row">
-    <div class="card bg-light border-0">
-      <div class="card-body text-muted">
-        <samp>
-          {{ monsterForm.value | json }}
-        </samp>
-      </div>
-    </div>
-  </div>
-
   <hr>
+
   <h5>Ability Scores</h5>
   <div class="form-row">
     <div formArrayName="ability_scores" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of abilityScoreList; let i = index">
@@ -150,26 +141,34 @@
 
   <hr>
 
-  <div class="form-row">
-    <div class="form-group col-7 col-lg-2">
+<div formArrayName="senses" *ngFor="let senseGroup of monsterForm.get('senses').controls; let i = index">
+  <div [formGroupName]="i" class="form-row">
+    <div class="form-group col-7">
       <label>Sense</label>
-      <ng-select [items]="senseList" [selectOnTab]="true" placeholder="Sense"></ng-select>
+      <ng-select formControlName="sense" [items]="senseList" [selectOnTab]="true" placeholder="Sense"></ng-select>
       <small class="form-text text-muted">Telepathy is included here</small>
     </div>
-    <div class="form-group col-5 col-lg-2">
+    <div class="form-group col-4">
       <label>Distance</label>
       <div class="input-group">
-        <input type="number" class="form-control" placeholder="Distance">
+        <input formControlName="distance" type="number" class="form-control" placeholder="Distance">
         <div class="input-group-append">
           <span class="input-group-text">ft.</span>
         </div>
       </div>
     </div>
-    <div class="form-group col-12 col-lg-4">
-      <label class="invisible d-none d-lg-inline-block">Add Sense</label>
-      <button (click)="addSense()" class="btn btn-outline-secondary btn-block" type="button">Add Sense</button>
+    <div class="col-1">
+      <label class="invisible d-none d-lg-inline-block">Remove</label>
+      <button class="btn btn-outline-danger" type="button"><i class="fas fa-times"></i></button>
     </div>
   </div>
+</div>
+
+<div class="form-group">
+  <!-- <label class="invisible d-none d-lg-inline-block">Add Sense</label> -->
+  <button (click)="addSense()" class="btn btn-outline-secondary btn-block" type="button">Add Sense</button>
+</div>
+
   <div class="form-group">
     <label>Languages</label>
     <ng-select [items]="languageList" [selectOnTab]="true" [hideSelected]="true" placeholder="Languages" [addTag]="true" multiple="true"></ng-select>
@@ -344,6 +343,16 @@
       <button class="btn btn-outline-secondary btn-block" type="button">Add Relationship</button>
     </div>
   </span>
+
+  <div class="form-row">
+    <div class="card bg-light border-0">
+      <div class="card-body text-muted">
+        <samp>
+          {{ monsterForm.value | json }}
+        </samp>
+      </div>
+    </div>
+  </div>
 
   <div class="form-row justify-content-center">
     <div class="form-group col-md-4">
