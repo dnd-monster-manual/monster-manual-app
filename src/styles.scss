@@ -1,27 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-// @import "~bootswatch/dist/sandstone/variables";
-@import "~bootstrap/scss/bootstrap";
-@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@fortawesome/fontawesome-free/css/all.css";
-// @import "~bootswatch/dist/sandstone/bootswatch";
-// @import url('https://fonts.googleapis.com/css?family=Scada');
 
 html {
   position: relative;
   min-height: 100%;
 }
+
+// footer.component.scss
 body {
-  // margin-bottom: 70px; /* Margin bottom by footer height */
   padding-bottom: 70px;
 }
 
-// html,
-// body,
-// h1,
-// h2,
-// h3,
-// h4,
-// h5,
-// h6 {
-//   font-family: 'Scada', sans-serif;
-// }
+// monster-form.component.scss
+ng-select.form-control.ng-select > div.ng-select-container {
+  border: none;
+}

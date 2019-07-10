@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { StaticDataService } from '../../services';
 import { Monster } from '../../models';
 
@@ -38,8 +38,8 @@ export class MonsterFormComponent implements OnInit {
 
   buildForm() {
     this.monsterForm = this.formBuilder.group({
-       name: this.monster.name,
-       size: this.monster.size,
+       name: [this.monster.name, [Validators.required]],
+       size: [this.monster.size, [Validators.required]],
        monster_type: this.monster.monster_type,
        alignment: this.monster.alignment,
        tags: [this.monster.tags],
@@ -64,19 +64,19 @@ export class MonsterFormComponent implements OnInit {
   }
 
   fillFormArray(property: string) {
-    let a = [];
-      for(let x of this.monster[property]) {
-        let properties = Object.keys(x);
-        let fg = new FormGroup({});
-        for(let y of properties) {
-          if(y !== '_id') {
-            let fc = new FormControl(x[y]);
-            fg.addControl(y, fc);
+    let formArray = [];
+      for(let object of this.monster[property]) {
+        let properties = Object.keys(object);
+        let formGroup = new FormGroup({});
+        for(let prop of properties) {
+          if(prop !== '_id') {
+            let formControl = new FormControl(object[prop]);
+            formGroup.addControl(prop, formControl);
           }
         }
-        a.push(fg);
+        formArray.push(formGroup);
       }
-    return a;
+    return formArray;
   }
 
   addFormGroup(property: string) {
@@ -89,14 +89,6 @@ export class MonsterFormComponent implements OnInit {
       }
     }
     (<FormArray>this.monsterForm.get(property)).push(formGroup);
-  }
-
-  addSpeed() {
-    (<FormArray>this.monsterForm.get('speeds')).push(this.formBuilder.group({ speed_type: null, speed: null }));
-  }
-
-  addSkill() {
-    (<FormArray>this.monsterForm.get('skills')).push(this.formBuilder.group({ skill: null, bonus: null }));
   }
 
   formatUrl(name: string) {
@@ -120,8 +112,6 @@ export class MonsterFormComponent implements OnInit {
 
   submit() {
     let m:Monster = {...this.monster, ...this.monsterForm.value};
-    console.log(m);
-    //let m = {...this.monster, ...this.monsterForm.value};
     this.submitMonster.emit(m);
   }
 }
