@@ -23,11 +23,13 @@
     </div>
     <div class="form-group col-12 col-sm-4">
       <label>Type</label>
-      <ng-select formControlName="monster_type" [items]="typeList" [selectOnTab]="true" placeholder="Type" class="form-control"></ng-select>
+      <ng-select formControlName="monster_type" [items]="typeList" [selectOnTab]="true" placeholder="Type" class="form-control"
+      [ngClass]="{'is-invalid':(monsterForm.get('monster_type').touched || monsterForm.get('monster_type').dirty) && !monsterForm.get('monster_type').valid}"></ng-select>
     </div>
     <div class="form-group col-12 col-sm-4">
       <label>Alignment</label>
-      <ng-select formControlName="alignment" [items]="alignmentList" [selectOnTab]="true" placeholder="Alignment" class="form-control"></ng-select>
+      <ng-select formControlName="alignment" [items]="alignmentList" [selectOnTab]="true" placeholder="Alignment" class="form-control"
+      [ngClass]="{'is-invalid':(monsterForm.get('alignment').touched || monsterForm.get('alignment').dirty) && !monsterForm.get('alignment').valid}"></ng-select>
     </div>
   </div>
   <div class="form-group">
@@ -87,14 +89,16 @@
   <div class="form-row">
     <div formArrayName="ability_scores" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of abilityScoreList; let i = index">
       <label>{{ability}}</label>
-      <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}">
+      <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}"
+      [ngClass]="{'is-invalid':(monsterForm.get('ability_scores').controls[i].touched || monsterForm.get('ability_scores').controls[i].dirty) && !monsterForm.get('ability_scores').controls[i].valid}">
     </div>
   </div>
   <h5>Saving Throws</h5>
   <div class="form-row">
     <div formArrayName="saving_throws" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of abilityScoreList; let i = index">
       <label>{{ability}}</label>
-      <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}">
+      <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}"
+      [ngClass]="{'is-invalid':(monsterForm.get('saving_throws').controls[i].touched || monsterForm.get('saving_throws').controls[i].dirty) && !monsterForm.get('saving_throws').controls[i].valid}">
     </div>
   </div>
 
