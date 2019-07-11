@@ -77,24 +77,15 @@ export class Monster {
     this.ac_note = null;
     this.hp = null;
     this.hd = null;
-    this.speeds = [{
-      speed_type: null,
-      speed: null
-    }];
+    this.speeds = [];
     this.ability_scores = [null, null, null, null, null, null];
     this.saving_throws = [null, null, null, null, null, null];
-    this.skills = [{
-      skill: null,
-      bonus: null
-    }];
+    this.skills = [];
     this.immunities = [];
     this.resistances = [];
     this.vulnerabilities = [];
     this.condition_immunities = [];
-    this.senses = [{
-      sense: null,
-      distance: null
-    }];
+    this.senses = [];
     this.languages = [];
     this.cr = null;
     this.xp = null;

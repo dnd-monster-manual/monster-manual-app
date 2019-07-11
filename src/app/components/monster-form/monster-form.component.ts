@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { StaticDataService } from '../../services';
+import { StaticDataService, FormService } from '../../services';
 import { Monster } from '../../models';
 
 @Component({
@@ -26,7 +26,7 @@ export class MonsterFormComponent implements OnInit {
   tagList = [];
   skillList = [];
 
-  constructor(private staticDataService: StaticDataService, private formBuilder: FormBuilder) { }
+  constructor(private staticDataService: StaticDataService, private formService: FormService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
@@ -59,7 +59,20 @@ export class MonsterFormComponent implements OnInit {
        languages: [this.monster.languages],
        cr: this.monster.cr,
        xp: this.monster.xp,
-       attacks: this.formBuilder.array(this.fillFormArray('attacks'))
+       legendary_actions: this.monster.legendary_actions,
+       abilities: this.formBuilder.array(this.fillFormArray('abilities')),
+       attacks: this.formBuilder.array(this.fillFormArray('attacks')),
+       climate: [this.monster.climate],
+       terrain: [this.monster.terrain],
+       rarity: this.monster.rarity,
+       organization: this.monster.organization,
+       activity_cycle: this.monster.activity_cycle,
+       diet: this.monster.diet,
+       physical_description: this.monster.physical_description,
+       habitat_society: this.monster.habitat_society,
+       ecology: this.monster.ecology,
+       item_components: this.formBuilder.array(this.fillFormArray('item_components')),
+       monster_relationships: this.formBuilder.array(this.fillFormArray('monster_relationships'))
     });
   }
 
@@ -81,7 +94,14 @@ export class MonsterFormComponent implements OnInit {
 
   addFormGroup(property: string) {
     let formGroup = new FormGroup({});
-    let properties = Object.keys(this.monster[property][0]);
+    let properties = [];
+    if(this.monster[property].length > 0) {
+      properties = Object.keys(this.monster[property][0]);
+    }
+    else {
+      properties = Object.keys(this.formService.getProperty(property));
+    }
+    console.log(properties);
     for(let property of properties) {
       if(property !== '_id') {
         let formControl = new FormControl(null);
