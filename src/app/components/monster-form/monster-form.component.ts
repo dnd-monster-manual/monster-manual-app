@@ -52,7 +52,7 @@ export class MonsterFormComponent implements OnInit {
        hd: [this.monster.hd, [Validators.required]],
        speeds: this.formBuilder.array(this.fillFormArray('speeds')),
        ability_scores: this.formBuilder.array(this.fillAbilityScoreArray()),
-       saving_throws: this.formBuilder.array(this.monster.saving_throws, [Validators.required]),
+       saving_throws: this.formBuilder.array(this.fillSavingThrowArray()),
        immunities: [this.monster.immunities],
        resistances: [this.monster.resistances],
        vulnerabilities: [this.monster.vulnerabilities],
@@ -83,6 +83,14 @@ export class MonsterFormComponent implements OnInit {
     let formArray = [];
     for(let score of this.monster.ability_scores) {
       formArray.push(new FormControl(score, [Validators.required, Validators.min(0)]));
+    }
+    return formArray;
+  }
+
+  fillSavingThrowArray() {
+    let formArray = [];
+    for(let save of this.monster.saving_throws) {
+      formArray.push(new FormControl(save, [Validators.required]));
     }
     return formArray;
   }

@@ -8,3 +8,15 @@
 ng-select.form-control {
   padding: 0;
 }
+
+td .form-control {
+  border: 0;
+  border-radius: 0;
+  // padding: 0;
+  padding: 0 2em;
+  text-align: center;
+}
+
+td .form-control:focus {
+  box-shadow: none;
+}

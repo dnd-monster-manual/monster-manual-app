@@ -1,14 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
 html {
   position: relative;
-  min-height: 100%;
+  min-height: 100%;  
 }
 
 // footer.component.scss
 body {
   padding-bottom: 70px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 // monster-form.component.scss
