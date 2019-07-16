@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { StaticDataService, FormService } from '../../services';
 import { Monster } from '../../models';
 
@@ -25,6 +25,7 @@ export class MonsterFormComponent implements OnInit {
   abilityTypeList = [];
   tagList = [];
   skillList = [];
+  @Input() isNewMonster: boolean = false;
 
   constructor(private staticDataService: StaticDataService, private formService: FormService, private formBuilder: FormBuilder) { }
 
@@ -34,9 +35,8 @@ export class MonsterFormComponent implements OnInit {
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
     );
-    this.monsterForm.get('ability_scores').valueChanges.subscribe(
-      value => console.log(this.monsterForm.get('ability_scores'))
-    );
+    console.log(this.monsterForm);
+    console.log(this.getFormValidationErrors());
   }
 
   buildForm() {
@@ -79,6 +79,18 @@ export class MonsterFormComponent implements OnInit {
     });
   }
 
+  getFormValidationErrors() {
+    Object.keys(this.monsterForm.controls).forEach(key => {
+
+      const controlErrors: ValidationErrors = this.monsterForm.get(key).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(keyError => {
+          console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+        });
+      }
+    });
+  }
+
   fillAbilityScoreArray() {
     let formArray = [];
     for(let score of this.monster.ability_scores) {
@@ -102,7 +114,7 @@ export class MonsterFormComponent implements OnInit {
         let formGroup = new FormGroup({});
         for(let prop of properties) {
           if(prop !== '_id') {
-            let formControl = new FormControl(object[prop]);
+            let formControl = new FormControl(object[prop], [Validators.required]);
             formGroup.addControl(prop, formControl);
           }
         }
@@ -120,7 +132,6 @@ export class MonsterFormComponent implements OnInit {
     else {
       properties = Object.keys(this.formService.getProperty(property));
     }
-    console.log(properties);
     for(let property of properties) {
       if(property !== '_id') {
         let formControl = new FormControl(null);
@@ -128,6 +139,24 @@ export class MonsterFormComponent implements OnInit {
       }
     }
     (<FormArray>this.monsterForm.get(property)).push(formGroup);
+  }
+
+  removeFormGroup(property: string, i: number) {
+    (<FormArray>this.monsterForm.get(property)).removeAt(i);
+  }
+
+  resetFormArray(property: string) {
+    this.monsterForm.setControl(property, this.formBuilder.array(this.fillFormArray(property)));
+  }
+
+  resetMultiple(properties: string[]) {
+    let form = {};
+    for(let property of properties) {
+      console.log(property, this.monster[property]);
+      form[property] = this.monster[property];
+    }
+    this.monsterForm.patchValue(form);
+    console.log(properties, form);
   }
 
   formatUrl(name: string) {

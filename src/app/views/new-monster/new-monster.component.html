@@ -1,4 +1,4 @@
 <div class="container">
   <h1>New Monster</h1>
-  <app-monster-form (submitMonster)="createMonster($event)"></app-monster-form>
+  <app-monster-form [isNewMonster]="true" (submitMonster)="createMonster($event)"></app-monster-form>
 </div>

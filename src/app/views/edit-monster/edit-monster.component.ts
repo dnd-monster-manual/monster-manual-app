@@ -17,7 +17,6 @@ monster: Monster;
   }
 
   updateMonster(monster: Monster) {
-    console.log(monster);
     //this.apiService.createMonster(monster);
   }
 }
