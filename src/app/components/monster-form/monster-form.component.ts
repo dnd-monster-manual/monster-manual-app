@@ -34,6 +34,9 @@ export class MonsterFormComponent implements OnInit {
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
     );
+    this.monsterForm.get('ability_scores').valueChanges.subscribe(
+      value => console.log(this.monsterForm.get('ability_scores'))
+    );
   }
 
   buildForm() {
@@ -48,8 +51,8 @@ export class MonsterFormComponent implements OnInit {
        hp: [this.monster.hp, [Validators.required]],
        hd: [this.monster.hd, [Validators.required]],
        speeds: this.formBuilder.array(this.fillFormArray('speeds')),
-       ability_scores: this.formBuilder.array(this.monster.ability_scores, [Validators.required]),
-       saving_throws: this.formBuilder.array(this.monster.saving_throws),
+       ability_scores: this.formBuilder.array(this.fillAbilityScoreArray()),
+       saving_throws: this.formBuilder.array(this.monster.saving_throws, [Validators.required]),
        immunities: [this.monster.immunities],
        resistances: [this.monster.resistances],
        vulnerabilities: [this.monster.vulnerabilities],
@@ -74,6 +77,14 @@ export class MonsterFormComponent implements OnInit {
        item_components: this.formBuilder.array(this.fillFormArray('item_components')),
        monster_relationships: this.formBuilder.array(this.fillFormArray('monster_relationships'))
     });
+  }
+
+  fillAbilityScoreArray() {
+    let formArray = [];
+    for(let score of this.monster.ability_scores) {
+      formArray.push(new FormControl(score, [Validators.required, Validators.min(0)]));
+    }
+    return formArray;
   }
 
   fillFormArray(property: string) {

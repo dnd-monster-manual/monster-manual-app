@@ -1,35 +1,37 @@
-<form [formGroup]="monsterForm" (ngSubmit)="submit()" class="needs-validation">
+<form [formGroup]="monsterForm" (ngSubmit)="submit()" class="needs-validation" novalidate>
   <div class="form-group">
     <label class="form-label-lg">Name</label>
     <input formControlName="name" type="text" class="form-control form-control-lg" placeholder="Enter the monster's name"
-      [ngClass]="{'is-invalid':(monsterForm.get('name').touched || monsterForm.get('name').dirty) && !monsterForm.get('name').valid}">
+    [ngClass]="{'is-invalid':(monsterForm.get('name').touched || monsterForm.get('name').dirty) && !monsterForm.get('name').valid}">
     <small class="form-text text-muted">URL: monsters/{{monster.url}}</small>
     <div class="invalid-feedback">
-      <span *ngIf="monsterForm.get('name').errors?.required">
-        You must enter a name for the monster.
-      </span>
+      <span *ngIf="monsterForm.get('name').errors?.required">You must enter a name for the monster.</span>
     </div>
   </div>
   <div class="form-row">
     <div class="form-group col-12 col-sm-4">
       <label>Size</label>
       <ng-select formControlName="size" [items]="sizeList" [selectOnTab]="true" placeholder="Size" class="form-control"
-        [ngClass]="{'is-invalid':(monsterForm.get('size').touched || monsterForm.get('size').dirty) && !monsterForm.get('size').valid}"></ng-select>
+      [ngClass]="{'is-invalid':(monsterForm.get('size').touched || monsterForm.get('size').dirty) && !monsterForm.get('size').valid}"></ng-select>
       <div class="invalid-feedback">
-        <span *ngIf="monsterForm.get('size').errors?.required">
-          You must enter a size for the monster.
-        </span>
+        <span *ngIf="monsterForm.get('size').errors?.required">You must enter a size for the monster.</span>
       </div>
     </div>
     <div class="form-group col-12 col-sm-4">
       <label>Type</label>
       <ng-select formControlName="monster_type" [items]="typeList" [selectOnTab]="true" placeholder="Type" class="form-control"
       [ngClass]="{'is-invalid':(monsterForm.get('monster_type').touched || monsterForm.get('monster_type').dirty) && !monsterForm.get('monster_type').valid}"></ng-select>
+      <div class="invalid-feedback">
+        <span *ngIf="monsterForm.get('monster_type').errors?.required">You must enter a type for the monster.</span>
+      </div>
     </div>
     <div class="form-group col-12 col-sm-4">
       <label>Alignment</label>
       <ng-select formControlName="alignment" [items]="alignmentList" [selectOnTab]="true" placeholder="Alignment" class="form-control"
       [ngClass]="{'is-invalid':(monsterForm.get('alignment').touched || monsterForm.get('alignment').dirty) && !monsterForm.get('alignment').valid}"></ng-select>
+      <div class="invalid-feedback">
+        <span *ngIf="monsterForm.get('alignment').errors?.required">You must enter an alignment for the monster.</span>
+      </div>
     </div>
   </div>
   <div class="form-group">
@@ -39,21 +41,34 @@
   </div>
 
   <div class="form-row">
-    <div class="form-group col-3 col-sm-2 col-md-1">
+    <div class="form-group col-2">
       <label>AC</label>
-      <input formControlName="ac" type="number" class="form-control" placeholder="AC">
+      <input formControlName="ac" type="number" class="form-control" placeholder="AC"
+      [ngClass]="{'is-invalid':(monsterForm.get('ac').touched || monsterForm.get('ac').dirty) && !monsterForm.get('ac').valid}">
+      <div class="invalid-feedback">
+        <span *ngIf="monsterForm.get('ac').errors?.required">You must enter an armor class.</span>
+        <span *ngIf="monsterForm.get('ac').errors?.invalid">Invalid input.</span>
+      </div>
     </div>
-    <div class="form-group col-9 col-sm-4 col-md-5">
+    <div class="form-group col-5">
       <label>AC note</label>
       <input formControlName="ac_note" type="text" class="form-control" placeholder="AC notes, source, etc.">
     </div>
-    <div class="form-group col-3 col-sm-2 col-md-1">
+    <div class="form-group col-2">
       <label>HP</label>
-      <input formControlName="hp" type="number" class="form-control" placeholder="HP">
+      <input formControlName="hp" type="number" class="form-control" placeholder="HP"
+      [ngClass]="{'is-invalid':(monsterForm.get('hp').touched || monsterForm.get('hp').dirty) && !monsterForm.get('hp').valid}">
+      <div class="invalid-feedback">
+        <span *ngIf="monsterForm.get('hp').errors?.required">You must enter hit points.</span>
+      </div>
     </div>
-    <div class="form-group col-9 col-sm-4 col-md-5">
+    <div class="form-group col-3">
       <label>Hit dice</label>
-      <input formControlName="hd" type="text" class="form-control" placeholder="Hit dice, 1d8+2, etc.">
+      <input formControlName="hd" type="text" class="form-control" placeholder="Hit dice, 1d8+2, etc."
+      [ngClass]="{'is-invalid':(monsterForm.get('hd').touched || monsterForm.get('hd').dirty) && !monsterForm.get('hd').valid}">
+      <div class="invalid-feedback">
+        <span *ngIf="monsterForm.get('hd').errors?.required">You must enter hit dice.</span>
+      </div>
     </div>
   </div>
 
@@ -91,8 +106,13 @@
       <label>{{ability}}</label>
       <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}}"
       [ngClass]="{'is-invalid':(monsterForm.get('ability_scores').controls[i].touched || monsterForm.get('ability_scores').controls[i].dirty) && !monsterForm.get('ability_scores').controls[i].valid}">
+      <div class="invalid-feedback">
+        <span *ngIf="monsterForm.get('ability_scores').controls[i].errors?.required">{{ability}} score is required.</span>
+        <span *ngIf="monsterForm.get('ability_scores').controls[i].errors?.min">{{ability}} score must be at least 0.</span>
+      </div>
     </div>
   </div>
+  
   <h5>Saving Throws</h5>
   <div class="form-row">
     <div formArrayName="saving_throws" class="form-group col-6 col-sm-4 col-lg-2" *ngFor="let ability of abilityScoreList; let i = index">
