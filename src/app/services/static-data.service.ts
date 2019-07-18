@@ -40,7 +40,11 @@ export class StaticDataService {
   }
 
   getAbilityTypes() {
-    return ["Action", "Passive", "Legendary"];
+    return ["Action", "Passive", "Reaction", "Legendary"];
+  }
+
+  getAttackTypes() {
+    return ["Melee weapon", "Ranged weapon", "Melee spell", "Ranged spell", "Melee or ranged weapon", "Melee or ranged spell"];
   }
 
   getTags() {

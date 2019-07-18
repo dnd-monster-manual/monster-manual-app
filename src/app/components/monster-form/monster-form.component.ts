@@ -23,6 +23,7 @@ export class MonsterFormComponent implements OnInit {
   conditionList = [];
   senseList = [];
   abilityTypeList = [];
+  attackTypeList = [];
   tagList = [];
   skillList = [];
   @Input() isNewMonster: boolean = false;
@@ -35,8 +36,6 @@ export class MonsterFormComponent implements OnInit {
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
     );
-    console.log(this.monsterForm);
-    console.log(this.getFormValidationErrors());
   }
 
   buildForm() {
@@ -50,21 +49,21 @@ export class MonsterFormComponent implements OnInit {
        ac_note: this.monster.ac_note,
        hp: [this.monster.hp, [Validators.required]],
        hd: [this.monster.hd, [Validators.required]],
-       speeds: this.formBuilder.array(this.fillFormArray('speeds')),
+       speeds: this.formBuilder.array(this.formService.fillFormArray('speeds', this.monster['speeds'])),
        ability_scores: this.formBuilder.array(this.fillAbilityScoreArray()),
        saving_throws: this.formBuilder.array(this.fillSavingThrowArray()),
        immunities: [this.monster.immunities],
        resistances: [this.monster.resistances],
        vulnerabilities: [this.monster.vulnerabilities],
        condition_immunities: [this.monster.condition_immunities],
-       skills: this.formBuilder.array(this.fillFormArray('skills')),
-       senses: this.formBuilder.array(this.fillFormArray('senses')),
+       skills: this.formBuilder.array(this.formService.fillFormArray('skills', this.monster['skills'])),
+       senses: this.formBuilder.array(this.formService.fillFormArray('senses', this.monster['senses'])),
        languages: [this.monster.languages],
        cr: this.monster.cr,
        xp: this.monster.xp,
        legendary_actions: this.monster.legendary_actions,
-       abilities: this.formBuilder.array(this.fillFormArray('abilities')),
-       attacks: this.formBuilder.array(this.fillFormArray('attacks')),
+       abilities: this.formBuilder.array(this.formService.fillFormArray('abilities', this.monster['abilities'])),
+       attacks: this.formBuilder.array(this.formService.fillFormArray('attacks', this.monster['attacks'])),
        climate: [this.monster.climate],
        terrain: [this.monster.terrain],
        rarity: this.monster.rarity,
@@ -74,20 +73,8 @@ export class MonsterFormComponent implements OnInit {
        physical_description: this.monster.physical_description,
        habitat_society: this.monster.habitat_society,
        ecology: this.monster.ecology,
-       item_components: this.formBuilder.array(this.fillFormArray('item_components')),
-       monster_relationships: this.formBuilder.array(this.fillFormArray('monster_relationships'))
-    });
-  }
-
-  getFormValidationErrors() {
-    Object.keys(this.monsterForm.controls).forEach(key => {
-
-      const controlErrors: ValidationErrors = this.monsterForm.get(key).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(keyError => {
-          console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
-        });
-      }
+       item_components: this.formBuilder.array(this.formService.fillFormArray('item_components', this.monster['item_components'])),
+       monster_relationships: this.formBuilder.array(this.formService.fillFormArray('monster_relationships', this.monster['monster_relationships']))
     });
   }
 
@@ -107,21 +94,21 @@ export class MonsterFormComponent implements OnInit {
     return formArray;
   }
 
-  fillFormArray(property: string) {
-    let formArray = [];
-      for(let object of this.monster[property]) {
-        let properties = Object.keys(object);
-        let formGroup = new FormGroup({});
-        for(let prop of properties) {
-          if(prop !== '_id') {
-            let formControl = new FormControl(object[prop], [Validators.required]);
-            formGroup.addControl(prop, formControl);
-          }
-        }
-        formArray.push(formGroup);
-      }
-    return formArray;
-  }
+  // fillFormArray(property: string) {
+  //   let formArray = [];
+  //     for(let object of this.monster[property]) {
+  //       let properties = Object.keys(object);
+  //       let formGroup = new FormGroup({});
+  //       for(let prop of properties) {
+  //         if(prop !== '_id') {
+  //           let formControl = new FormControl(object[prop], [Validators.required]);
+  //           formGroup.addControl(prop, formControl);
+  //         }
+  //       }
+  //       formArray.push(formGroup);
+  //     }
+  //   return formArray;
+  // }
 
   addFormGroup(property: string) {
     let formGroup = new FormGroup({});
@@ -146,17 +133,15 @@ export class MonsterFormComponent implements OnInit {
   }
 
   resetFormArray(property: string) {
-    this.monsterForm.setControl(property, this.formBuilder.array(this.fillFormArray(property)));
+    this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
   }
 
   resetMultiple(properties: string[]) {
     let form = {};
     for(let property of properties) {
-      console.log(property, this.monster[property]);
       form[property] = this.monster[property];
     }
     this.monsterForm.patchValue(form);
-    console.log(properties, form);
   }
 
   formatUrl(name: string) {
@@ -174,6 +159,7 @@ export class MonsterFormComponent implements OnInit {
     this.conditionList = this.staticDataService.getConditions();
     this.senseList = this.staticDataService.getSenses();
     this.abilityTypeList = this.staticDataService.getAbilityTypes();
+    this.attackTypeList = this.staticDataService.getAttackTypes();
     this.tagList = this.staticDataService.getTags();
     this.skillList = this.staticDataService.getSkills();
   }
