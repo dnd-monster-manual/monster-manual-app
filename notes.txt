@@ -1,0 +1,16 @@
+checkbox "has lair"
+opens new form fields for lair info/actions
+
+checkbox "2e info"??
+
+dropdown "ranged weapon/spell, melee weapon/spell" triggers range or reach box, if both then separate damage/to hit boxes need to come up
+
+parent object w/ descriptions, parent dropdown in monster? "angel, dragon, etc"
+
+"lore" field with physical desc, habitat, etc.
+
+x/day, recharge x, recharge short/long rest
+
+legendary checkbox
+
+save static data in database and retrieve from there
