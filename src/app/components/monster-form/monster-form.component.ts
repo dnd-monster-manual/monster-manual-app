@@ -107,11 +107,8 @@ export class MonsterFormComponent implements OnInit {
       control = (<FormArray>control).controls[index];
       if(nestedProperty) {
         control = (<FormGroup>control).controls[nestedProperty];
-      }      
+      }
     }
-    // else {
-    //   control = this.monsterForm.get(property);
-    // }
     return (control.touched || control.dirty) && !control.valid;
   }
 

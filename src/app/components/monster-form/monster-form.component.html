@@ -146,7 +146,7 @@
             </div>
           </div>
           <div class="form-group d-flex col">
-            <button (click)="removeFormGroup('speeds', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+            <button (click)="removeFormGroup('speeds', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
           </div>
         </div>
       </div>
@@ -193,7 +193,7 @@
               <tr formArrayName="saving_throws" *ngFor="let ability of abilityScoreList; let i = index">
                 <td class="border-left-0">
                   <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}} save"
-                  [ngClass]="{'is-invalid':(monsterForm.get('saving_throws').controls[i].touched || monsterForm.get('saving_throws').controls[i].dirty) && !monsterForm.get('saving_throws').controls[i].valid}">
+                  [ngClass]="{'is-invalid': isInvalid('saving_throws', i)}">
                 </td>
               </tr>
             </tbody>
@@ -210,14 +210,16 @@
         <div [formGroupName]="i" class="form-row">
           <div class="form-group col-6 col-md-7">
             <label>Skill {{i+1}}</label>
-            <ng-select formControlName="skill" [items]="skillList" [selectOnTab]="true" placeholder="Skill" class="form-control"></ng-select>
+            <ng-select formControlName="skill" [items]="skillList" [selectOnTab]="true" placeholder="Skill" class="form-control"
+            [ngClass]="{'is-invalid': isInvalid('skills', i, 'skill')}"></ng-select>
           </div>
           <div class="form-group col-4 col-md-4">
             <label>Bonus</label>
-            <input formControlName="bonus" type="number" class="form-control" placeholder="Bonus">
+            <input formControlName="bonus" type="number" class="form-control" placeholder="Bonus"
+            [ngClass]="{'is-invalid': isInvalid('skills', i, 'bonus')}">
           </div>
           <div class="form-group d-flex col">
-            <button (click)="removeFormGroup('skills', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+            <button (click)="removeFormGroup('skills', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
           </div>
         </div>
       </div>
@@ -235,19 +237,21 @@
         <div [formGroupName]="i" class="form-row">
           <div class="form-group col-6 col-md-7">
             <label>Sense {{i+1}}</label>
-            <ng-select formControlName="sense" [items]="senseList" [selectOnTab]="true" placeholder="Sense" class="form-control"></ng-select>
+            <ng-select formControlName="sense" [items]="senseList" [selectOnTab]="true" placeholder="Sense" class="form-control"
+            [ngClass]="{'is-invalid': isInvalid('senses', i, 'sense')}"></ng-select>
           </div>
           <div class="form-group col-4 col-md-4">
             <label>Distance</label>
             <div class="input-group">
-              <input formControlName="distance" type="number" class="form-control" placeholder="Distance">
+              <input formControlName="distance" type="number" class="form-control" placeholder="Distance"
+              [ngClass]="{'is-invalid': isInvalid('senses', i, 'distance')}">
               <div class="input-group-append">
                 <span class="input-group-text">ft.</span>
               </div>
             </div>
           </div>
           <div class="form-group d-flex col">
-            <button (click)="removeFormGroup('senses', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+            <button (click)="removeFormGroup('senses', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
           </div>
         </div>
       </div>
@@ -266,19 +270,22 @@
           <div class="form-row">
             <div class="form-group col-12 col-sm-6">
               <label>Ability Name</label>
-              <input formControlName="name" type="text" class="form-control" placeholder="Ability name">
+              <input formControlName="name" type="text" class="form-control" placeholder="Ability name"
+              [ngClass]="{'is-invalid': isInvalid('abilities', i, 'name')}">
             </div>
             <div class="form-group col-12 col-sm-5">
               <label>Ability Type</label>
-              <ng-select formControlName="ability_type" [items]="abilityTypeList" [selectOnTab]="true" placeholder="Ability Type" class="form-control"></ng-select>
+              <ng-select formControlName="ability_type" [items]="abilityTypeList" [selectOnTab]="true" placeholder="Ability Type" class="form-control"
+              [ngClass]="{'is-invalid': isInvalid('abilities', i, 'ability_type')}"></ng-select>
             </div>
             <div class="form-group d-flex col">
-              <button (click)="removeFormGroup('abilities', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+              <button (click)="removeFormGroup('abilities', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
             </div>
           </div>
           <div class="form-group">
             <label>Abilty text</label>
-            <textarea formControlName="effect" class="form-control" rows="3" placeholder="Enter the ability effect text"></textarea>
+            <textarea formControlName="effect" class="form-control" rows="3" placeholder="Enter the ability effect text"
+            [ngClass]="{'is-invalid': isInvalid('abilities', i, 'effect')}"></textarea>
           </div>
         </div>
       </div>
@@ -295,23 +302,27 @@
           <div class="form-row">
             <div class="form-group col-12 col-sm-6">
               <label>Attack Name</label>
-              <input formControlName="weapon" type="text" class="form-control" placeholder="Attack Name">
+              <input formControlName="weapon" type="text" class="form-control" placeholder="Attack Name"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'weapon')}">
             </div>
             <div class="form-group col-12 col-sm-5">
               <label>Attack Type</label>
-              <ng-select formControlName="attack_type" [items]="attackTypeList" [selectOnTab]="true" placeholder="Attack Type" class="form-control"></ng-select>
+              <ng-select formControlName="attack_type" [items]="attackTypeList" [selectOnTab]="true" placeholder="Attack Type" class="form-control"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'attack_type')}"></ng-select>
             </div>
             <div class="form-group d-flex col">
-              <button (click)="removeFormGroup('attacks', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+              <button (click)="removeFormGroup('attacks', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-6 col-sm-4 col-lg-2">
-              <input formControlName="to_hit" type="number" class="form-control" placeholder="To hit">
+              <input formControlName="to_hit" type="number" class="form-control" placeholder="To hit"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'to_hit')}">
             </div>
             <div class="form-group col-6 col-sm-4 col-lg-2">
               <div class="input-group">
-                <input formControlName="reach" type="number" class="form-control" placeholder="Reach">
+                <input formControlName="reach" type="number" class="form-control" placeholder="Reach"
+                [ngClass]="{'is-invalid': isInvalid('attacks', i, 'reach')}">
                 <div class="input-group-append">
                   <span class="input-group-text">ft.</span>
                 </div>
@@ -319,23 +330,28 @@
             </div>
             <div class="form-group col-sm-4 col-lg-2">
               <div class="input-group">
-                <input formControlName="range" type="text" class="form-control" placeholder="Range">
+                <input formControlName="range" type="text" class="form-control" placeholder="Range"
+                [ngClass]="{'is-invalid': isInvalid('attacks', i, 'range')}">
                 <div class="input-group-append">
                   <span class="input-group-text">ft.</span>
                 </div>
               </div>
             </div>
             <div class="form-group col-12 col-lg-6">
-              <input formControlName="num_targets" type="text" class="form-control" placeholder="Targets">
+              <input formControlName="num_targets" type="text" class="form-control" placeholder="Targets"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'num_targets')}">
             </div>
             <div class="form-group col-4 col-lg-2">
-              <input formControlName="average_damage" type="number" class="form-control" placeholder="Avg Dmg">
+              <input formControlName="average_damage" type="number" class="form-control" placeholder="Avg Dmg"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'average_damage')}">
             </div>
             <div class="form-group col-8 col-lg-4">
-              <input formControlName="damage" type="text" class="form-control" placeholder="Damage">
+              <input formControlName="damage" type="text" class="form-control" placeholder="Damage"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'damage')}">
             </div>
             <div class="form-group col-12 col-lg-6">
-              <input formControlName="damage_type" type="text" class="form-control" placeholder="Damage type">
+              <input formControlName="damage_type" type="text" class="form-control" placeholder="Damage type"
+              [ngClass]="{'is-invalid': isInvalid('attacks', i, 'damage_type')}">
             </div>
           </div>
           <div class="form-group">
@@ -350,52 +366,62 @@
 
   <div class="card mb-3 ">
     <h5 class="card-header bg-secondary text-light">Other
-      <button (click)="resetMultiple(['climate', 'terrain', 'rarity', 'organization', 'activity_cycle', 'diet', 'physical_description', 'habitat_society', 'ecology'])" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetMultiple(['climate', 'terrain', 'rarity', 'organization', 'activity_cycle', 'diet', 'physical_description', 'habitat_society', 'ecology'])"
+      class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div class="form-row">
         <div class="form-group col-lg-6">
           <label>Climate</label>
-          <ng-select formControlName="climate" [items]="climateList" [selectOnTab]="true" [hideSelected]="true" placeholder="Climate" [addTag]="true" multiple="true"></ng-select>
+          <ng-select formControlName="climate" [items]="climateList" [selectOnTab]="true" [hideSelected]="true" placeholder="Climate" [addTag]="true" multiple="true"
+          [ngClass]="{'is-invalid': isInvalid('climate')}"></ng-select>
         </div>
         <div class="form-group col-lg-6">
           <label>Terrain</label>
-          <ng-select formControlName="terrain" [items]="terrainList" [selectOnTab]="true" [hideSelected]="true" placeholder="Terrain" [addTag]="true" multiple="true"></ng-select>
+          <ng-select formControlName="terrain" [items]="terrainList" [selectOnTab]="true" [hideSelected]="true" placeholder="Terrain" [addTag]="true" multiple="true"
+          [ngClass]="{'is-invalid': isInvalid('terrain')}"></ng-select>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>Rarity</label>
-          <input formControlName="rarity" type="text" class="form-control" placeholder="Rarity">
+          <input formControlName="rarity" type="text" class="form-control" placeholder="Rarity"
+          [ngClass]="{'is-invalid': isInvalid('rarity')}">
         </div>
         <div class="form-group col-md-6">
           <label>Organization</label>
-          <input formControlName="organization" type="text" class="form-control" placeholder="Organization">
+          <input formControlName="organization" type="text" class="form-control" placeholder="Organization"
+          [ngClass]="{'is-invalid': isInvalid('organization')}">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label>Activity Cycle</label>
-          <input formControlName="activity_cycle" type="text" class="form-control" placeholder="Activity Cycle">
+          <input formControlName="activity_cycle" type="text" class="form-control" placeholder="Activity Cycle"
+          [ngClass]="{'is-invalid': isInvalid('activity_cycle')}">
         </div>
         <div class="form-group col-md-6">
           <label>Diet</label>
-          <input formControlName="diet" type="text" class="form-control" placeholder="Diet">
+          <input formControlName="diet" type="text" class="form-control" placeholder="Diet"
+          [ngClass]="{'is-invalid': isInvalid('diet')}">
         </div>
       </div>
 
       <div class="form-group">
         <label>Physical Description</label>
-        <textarea formControlName="physical_description" class="form-control" rows="3" placeholder="Physical Description"></textarea>
+        <textarea formControlName="physical_description" class="form-control" rows="3" placeholder="Physical Description"
+        [ngClass]="{'is-invalid': isInvalid('physical_description')}"></textarea>
       </div>
 
       <div class="form-group">
         <label>Habitat/Society</label>
-        <textarea formControlName="habitat_society" class="form-control" rows="5" placeholder="Habitat/Society"></textarea>
+        <textarea formControlName="habitat_society" class="form-control" rows="5" placeholder="Habitat/Society"
+        [ngClass]="{'is-invalid': isInvalid('habitat_society')}"></textarea>
       </div>
 
       <div class="form-group">
         <label>Ecology</label>
-        <textarea formControlName="ecology" class="form-control" rows="3" placeholder="Ecology"></textarea>
+        <textarea formControlName="ecology" class="form-control" rows="3" placeholder="Ecology"
+        [ngClass]="{'is-invalid': isInvalid('ecology')}"></textarea>
       </div>
     </div>
   </div>
@@ -409,15 +435,17 @@
           <div class="form-row">
             <div class="form-group col-11">
               <label>Item</label>
-              <input formControlName="item" type="text" class="form-control" placeholder="Item name">
+              <input formControlName="item" type="text" class="form-control" placeholder="Item name"
+              [ngClass]="{'is-invalid': isInvalid('item_components', i, 'item')}">
             </div>
             <div class="form-group d-flex col">
-              <button (click)="removeFormGroup('item_components', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+              <button (click)="removeFormGroup('item_components', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
             </div>
           </div>
           <div class="form-group">
             <label>Source</label>
-            <textarea formControlName="source" class="form-control" rows="3" placeholder="Source/component"></textarea>
+            <textarea formControlName="source" class="form-control" rows="3" placeholder="Source/component"
+            [ngClass]="{'is-invalid': isInvalid('item_components', i, 'source')}"></textarea>
           </div>
         </div>
       </div>
@@ -436,15 +464,17 @@
           <div class="form-row">
             <div class="form-group col-11">
               <label>Monster</label>
-              <ng-select formControlName="monster_name" [items]="monsterList" [selectOnTab]="true" placeholder="Monster"></ng-select>
+              <ng-select formControlName="monster_name" [items]="monsterList" [selectOnTab]="true" placeholder="Monster" class="form-control"
+              [ngClass]="{'is-invalid': isInvalid('monster_relationships', i, 'monster_name')}"></ng-select>
             </div>
             <div class="form-group d-flex col">
-              <button (click)="removeFormGroup('monster_relationships', i)" class="btn btn-outline-danger btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
+              <button (click)="removeFormGroup('monster_relationships', i)" class="btn btn-outline-secondary btn-block mt-auto" type="button"><i class="fas fa-times"></i></button>
             </div>
           </div>
           <div class="form-group">
             <label>Relationship</label>
-            <textarea formControlName="relationship" class="form-control" rows="3" placeholder="Relationship"></textarea>
+            <textarea formControlName="relationship" class="form-control" rows="3" placeholder="Relationship"
+            [ngClass]="{'is-invalid': isInvalid('monster_relationships', i, 'relationship')}"></textarea>
           </div>
         </div>
       </div>

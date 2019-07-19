@@ -81,7 +81,7 @@ export class FormService {
       average_damage: [values?values['average_damage']:null, [Validators.required]],
       damage: [values?values['damage']:null, [Validators.required]],
       damage_type: [values?values['damage_type']:null, [Validators.required]],
-      effect: [values?values['effect']:null, [Validators.required]]
+      effect: [values?values['effect']:null, []]
     });
   }
 
