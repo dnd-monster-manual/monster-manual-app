@@ -62,7 +62,7 @@ export class Monster {
     source: string
   }[];
   monster_relationships: {
-    monster_id: string,
+    monster_name: string,
     relationship: string
   }[];
 

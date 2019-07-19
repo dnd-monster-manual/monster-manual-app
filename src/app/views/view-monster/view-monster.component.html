@@ -109,5 +109,5 @@
   <p>Habitat/Society: {{monster.habitat_society}}</p>
   <p>Ecology: {{monster.ecology}}</p>
   <p *ngIf="monster.item_components.length > 0">Magical Item Components: <span *ngFor="let item of monster.item_components"><em>{{item.item}}</em> - {{item.source}}</span></p>
-  <p *ngIf="monster.monster_relationships.length > 0">Monster Relationships: <span *ngFor="let rel of monster.monster_relationships">{{rel.monster_id}}: {{rel.relationship}}</span></p>
+  <p *ngIf="monster.monster_relationships.length > 0">Monster Relationships: <span *ngFor="let rel of monster.monster_relationships">{{rel.monster_name}}: {{rel.relationship}}</span></p>
 </div>

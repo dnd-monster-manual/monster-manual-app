@@ -50,8 +50,8 @@ export class MonsterFormComponent implements OnInit {
        hp: [this.monster.hp, [Validators.required]],
        hd: [this.monster.hd, [Validators.required]],
        speeds: this.formBuilder.array(this.formService.fillFormArray('speeds', this.monster['speeds'])),
-       ability_scores: this.formBuilder.array(this.fillAbilityScoreArray()),
-       saving_throws: this.formBuilder.array(this.fillSavingThrowArray()),
+       ability_scores: this.formBuilder.array(this.formService.fillFormArray('ability_scores', this.monster['ability_scores'])),
+       saving_throws: this.formBuilder.array(this.formService.fillFormArray('saving_throws', this.monster['saving_throws'])),
        immunities: [this.monster.immunities],
        resistances: [this.monster.resistances],
        vulnerabilities: [this.monster.vulnerabilities],
@@ -78,53 +78,9 @@ export class MonsterFormComponent implements OnInit {
     });
   }
 
-  fillAbilityScoreArray() {
-    let formArray = [];
-    for(let score of this.monster.ability_scores) {
-      formArray.push(new FormControl(score, [Validators.required, Validators.min(0)]));
-    }
-    return formArray;
-  }
-
-  fillSavingThrowArray() {
-    let formArray = [];
-    for(let save of this.monster.saving_throws) {
-      formArray.push(new FormControl(save, [Validators.required]));
-    }
-    return formArray;
-  }
-
-  // fillFormArray(property: string) {
-  //   let formArray = [];
-  //     for(let object of this.monster[property]) {
-  //       let properties = Object.keys(object);
-  //       let formGroup = new FormGroup({});
-  //       for(let prop of properties) {
-  //         if(prop !== '_id') {
-  //           let formControl = new FormControl(object[prop], [Validators.required]);
-  //           formGroup.addControl(prop, formControl);
-  //         }
-  //       }
-  //       formArray.push(formGroup);
-  //     }
-  //   return formArray;
-  // }
-
   addFormGroup(property: string) {
     let formGroup = new FormGroup({});
-    let properties = [];
-    if(this.monster[property].length > 0) {
-      properties = Object.keys(this.monster[property][0]);
-    }
-    else {
-      properties = Object.keys(this.formService.getProperty(property));
-    }
-    for(let property of properties) {
-      if(property !== '_id') {
-        let formControl = new FormControl(null);
-        formGroup.addControl(property, formControl);
-      }
-    }
+    formGroup = <FormGroup>this.formService.buildFormElement(property, this.monster[property]);
     (<FormArray>this.monsterForm.get(property)).push(formGroup);
   }
 

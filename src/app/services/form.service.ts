@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Monster } from '../models';
 
 @Injectable({
@@ -11,13 +11,13 @@ export class FormService {
 
   fillFormArray(property: string, propertyArray: any[]) {
     let formArray = [];
-    for(let propertyObject of propertyArray) {
-      formArray.push(this.addFormGroup(property, propertyObject));
+    for(let propertyValues of propertyArray) {
+      formArray.push(this.buildFormElement(property, propertyValues));
     }
     return formArray;
   }
 
-  addFormGroup(property: string, values: any = null) {
+  buildFormElement(property: string, values: any = null): any {
     switch(property) {
       case "speeds": {
         return this.buildSpeed(values);
@@ -40,6 +40,12 @@ export class FormService {
       case "monster_relationships": {
         return this.buildMonsterRelationship(values);
       }
+      case "ability_scores": {
+        return this.buildAbilityScore(values);
+      }
+      case "saving_throws": {
+        return this.buildSavingThrow(values);
+      }
     }
   }
 
@@ -50,21 +56,21 @@ export class FormService {
     });
   }
 
-  buildSkill(values: any) {
+  buildSkill(values: any): FormGroup {
     return this.formBuilder.group({
       skill: [values?values['skill']:null, [Validators.required]],
       bonus: [values?values['bonus']:null, [Validators.required]]
     });
   }
 
-  buildSense(values: any) {
+  buildSense(values: any): FormGroup {
     return this.formBuilder.group({
       sense: [values?values['sense']:null, [Validators.required]],
       distance: [values?values['distance']:null, [Validators.required, Validators.min(0)]]
     });
   }
 
-  buildAttack(values: any) {
+  buildAttack(values: any): FormGroup {
     return this.formBuilder.group({
       weapon: [values?values['weapon']:null, [Validators.required]],
       attack_type: [values?values['attack_type']:null, [Validators.required]],
@@ -79,7 +85,7 @@ export class FormService {
     });
   }
 
-  buildAbility(values: any) {
+  buildAbility(values: any): FormGroup {
     return this.formBuilder.group({
       name: [values?values['name']:null, [Validators.required]],
       ability_type: [values?values['ability_type']:null, [Validators.required]],
@@ -87,74 +93,25 @@ export class FormService {
     });
   }
 
-  buildItemComponent(values: any) {
+  buildItemComponent(values: any): FormGroup {
     return this.formBuilder.group({
       item: [values?values['item']:null, [Validators.required]],
       source: [values?values['source']:null, [Validators.required]]
     });
   }
 
-  buildMonsterRelationship(values: any) {
+  buildMonsterRelationship(values: any): FormGroup {
     return this.formBuilder.group({
       monster_name: [values?values['monster_name']:null, [Validators.required]],
       relationship: [values?values['relationship']:null, [Validators.required, Validators.min(0)]]
     });
   }
 
-  getProperty(prop: string) {
-    if (prop == "speeds") {
-      return {
-        speed_type: null,
-        speed: null
-      }
-    }
-    else if (prop == "skills") {
-      return {
-        skill: null,
-        bonus: null
-      }
-    }
-    else if (prop == "senses") {
-      return {
-        sense: null,
-        distance: null
-      }
-    }
-    else if (prop == "attacks") {
-      return {
-        weapon: null,
-        attack_type: null,
-        to_hit: null,
-        reach: null,
-        range: null,
-        num_targets: null,
-        average_damage: null,
-        damage: null,
-        damage_type: null,
-        effect: null
-      }
-    }
-    else if (prop == "abilities") {
-      return {
-        name: null,
-        ability_type: null,
-        effect: null
-      }
-    }
-    else if (prop == "item_components") {
-      return {
-        item: null,
-        source: null
-      }
-    }
-    else if (prop == "monster_relationships") {
-      return {
-        monster_id: null,
-        relationship: null
-      }
-    }
-    else {
-      return null;
-    }
+  buildAbilityScore(value: any): FormControl {
+    return new FormControl(value, [Validators.required, Validators.min(0)]);
+  }
+
+  buildSavingThrow(value: any): FormControl {
+    return new FormControl(value, [Validators.required]);
   }
 }
