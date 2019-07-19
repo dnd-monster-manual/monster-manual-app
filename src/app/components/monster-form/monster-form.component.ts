@@ -105,14 +105,13 @@ export class MonsterFormComponent implements OnInit {
   // Reset specified fields of the form
   resetFields(properties: string[]) {
     if(properties.indexOf('abilities') !== -1 && properties.indexOf('is_legendary') == -1)
-      properties.push('is_legendary');
+      properties.push('is_legendary', 'legendary_actions');
     let form = {};
     for(let property of properties) {
       if(this.monsterForm.get(property) instanceof FormArray)
         this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
       else form[property] = this.monster[property];
     }
-    console.log(form);
     this.monsterForm.patchValue(form);
   }
 
@@ -121,11 +120,11 @@ export class MonsterFormComponent implements OnInit {
     let abilities = this.monsterForm.get('abilities').value;
     if(!legendary) {
       let i = abilities.findIndex(a => a.ability_type == 'Legendary');
-      do {
+      while(i !== -1) {
         abilities.splice(i, 1);
         this.removeFormGroup('abilities', i);
         i = abilities.findIndex(a => a.ability_type == 'Legendary');
-      } while(i !== -1)
+      }
     }
     this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
   }
