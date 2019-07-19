@@ -5,7 +5,7 @@
       <div class="form-group">
         <label class="form-label-lg">Name</label>
         <input formControlName="name" type="text" class="form-control form-control-lg" placeholder="Enter the monster's name"
-        [ngClass]="{'is-invalid':(monsterForm.get('name').touched || monsterForm.get('name').dirty) && !monsterForm.get('name').valid}">
+        [ngClass]="{'is-invalid': isInvalid('name')}">
         <small class="form-text text-muted">URL: monsters/{{monster.url}}</small>
         <div class="invalid-feedback">
           <span *ngIf="monsterForm.get('name').errors?.required">You must enter a name for the monster.</span>
@@ -15,7 +15,7 @@
         <div class="form-group col-12 col-sm-4">
           <label>Size</label>
           <ng-select formControlName="size" [items]="sizeList" [selectOnTab]="true" placeholder="Size" class="form-control"
-          [ngClass]="{'is-invalid':(monsterForm.get('size').touched || monsterForm.get('size').dirty) && !monsterForm.get('size').valid}"></ng-select>
+          [ngClass]="{'is-invalid': isInvalid('size')}"></ng-select>
           <div class="invalid-feedback">
             <span *ngIf="monsterForm.get('size').errors?.required">You must enter a size for the monster.</span>
           </div>
@@ -23,7 +23,7 @@
         <div class="form-group col-12 col-sm-4">
           <label>Type</label>
           <ng-select formControlName="monster_type" [items]="typeList" [selectOnTab]="true" placeholder="Type" class="form-control"
-          [ngClass]="{'is-invalid':(monsterForm.get('monster_type').touched || monsterForm.get('monster_type').dirty) && !monsterForm.get('monster_type').valid}"></ng-select>
+          [ngClass]="{'is-invalid': isInvalid('monster_type')}"></ng-select>
           <div class="invalid-feedback">
             <span *ngIf="monsterForm.get('monster_type').errors?.required">You must enter a type for the monster.</span>
           </div>
@@ -31,7 +31,7 @@
         <div class="form-group col-12 col-sm-4">
           <label>Alignment</label>
           <ng-select formControlName="alignment" [items]="alignmentList" [selectOnTab]="true" placeholder="Alignment" class="form-control"
-          [ngClass]="{'is-invalid':(monsterForm.get('alignment').touched || monsterForm.get('alignment').dirty) && !monsterForm.get('alignment').valid}"></ng-select>
+          [ngClass]="{'is-invalid': isInvalid('alignment')}"></ng-select>
           <div class="invalid-feedback">
             <span *ngIf="monsterForm.get('alignment').errors?.required">You must enter an alignment for the monster.</span>
           </div>
@@ -39,7 +39,8 @@
       </div>
       <div class="form-group">
         <label>Tags</label>
-        <ng-select formControlName="tags" [items]="tagList" [selectOnTab]="true" [hideSelected]="true" placeholder="Tags" multiple="true" [addTag]="true" class="form-control"></ng-select>
+        <ng-select formControlName="tags" class="form-control" placeholder="Tags" multiple="true"
+        [items]="tagList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
         <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
       </div>
 
@@ -47,7 +48,7 @@
         <div class="form-group col-2">
           <label>AC</label>
           <input formControlName="ac" type="number" class="form-control" placeholder="AC"
-          [ngClass]="{'is-invalid':(monsterForm.get('ac').touched || monsterForm.get('ac').dirty) && !monsterForm.get('ac').valid}">
+          [ngClass]="{'is-invalid': isInvalid('ac')}">
           <div class="invalid-feedback">
             <span *ngIf="monsterForm.get('ac').errors?.required">You must enter an armor class.</span>
             <span *ngIf="monsterForm.get('ac').errors?.invalid">Invalid input.</span>
@@ -60,7 +61,7 @@
         <div class="form-group col-2">
           <label>HP</label>
           <input formControlName="hp" type="number" class="form-control" placeholder="HP"
-          [ngClass]="{'is-invalid':(monsterForm.get('hp').touched || monsterForm.get('hp').dirty) && !monsterForm.get('hp').valid}">
+          [ngClass]="{'is-invalid': isInvalid('hp')}">
           <div class="invalid-feedback">
             <span *ngIf="monsterForm.get('hp').errors?.required">You must enter hit points.</span>
           </div>
@@ -68,7 +69,7 @@
         <div class="form-group col-3">
           <label>Hit dice</label>
           <input formControlName="hd" type="text" class="form-control" placeholder="Hit dice, 1d8+2, etc."
-          [ngClass]="{'is-invalid':(monsterForm.get('hd').touched || monsterForm.get('hd').dirty) && !monsterForm.get('hd').valid}">
+          [ngClass]="{'is-invalid': isInvalid('hd')}">
           <div class="invalid-feedback">
             <span *ngIf="monsterForm.get('hd').errors?.required">You must enter hit dice.</span>
           </div>
@@ -79,34 +80,41 @@
       <div class="form-row">
         <div class="form-group col-12 col-md-6 col-lg-3">
           <label>Damage Immunities</label>
-          <ng-select formControlName="immunities" [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Immunities" multiple="true" class="form-control"></ng-select>
+          <ng-select formControlName="immunities" placeholder="Damage Immunities" multiple="true" class="form-control"
+          [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true"></ng-select>
         </div>
         <div class="form-group col-12 col-md-6 col-lg-3">
           <label>Damage Resistances</label>
-          <ng-select formControlName="resistances" [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Resistances" multiple="true" class="form-control"></ng-select>
+          <ng-select formControlName="resistances" placeholder="Damage Resistances" multiple="true" class="form-control"
+          [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true"></ng-select>
         </div>
         <div class="form-group col-12 col-md-6 col-lg-3">
           <label>Damage Vulnerabilities</label>
-          <ng-select formControlName="vulnerabilities" [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true" placeholder="Damage Vulnerabilities" multiple="true" class="form-control"></ng-select>
+          <ng-select formControlName="vulnerabilities" placeholder="Damage Vulnerabilities" multiple="true" class="form-control"
+          [items]="damageTypeList" [selectOnTab]="true" [hideSelected]="true"></ng-select>
         </div>
         <div class="form-group col-12 col-md-6 col-lg-3">
           <label>Condition Immunities</label>
-          <ng-select formControlName="condition_immunities" [items]="conditionList" [selectOnTab]="true" [hideSelected]="true" placeholder="Condition Immunities" multiple="true" class="form-control"></ng-select>
+          <ng-select formControlName="condition_immunities" placeholder="Condition Immunities" multiple="true" class="form-control"
+          [items]="conditionList" [selectOnTab]="true" [hideSelected]="true"></ng-select>
         </div>
       </div>
       <hr>
       <div class="form-group">
         <label>Languages</label>
-        <ng-select formControlName="languages" [items]="languageList" [selectOnTab]="true" [hideSelected]="true" placeholder="Languages" [addTag]="true" multiple="true" class="form-control"></ng-select>
+        <ng-select formControlName="languages" placeholder="Languages" multiple="true" class="form-control"
+        [items]="languageList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
       </div>
       <div class="form-row">
         <div class="form-group col-3">
           <label>CR</label>
-          <input formControlName="cr" type="number" class="form-control" placeholder="CR">
+          <input formControlName="cr" type="number" class="form-control" placeholder="CR"
+          [ngClass]="{'is-invalid': isInvalid('cr')}">
         </div>
         <div class="form-group col-3">
           <label>XP</label>
-          <input formControlName="xp" type="number" class="form-control" placeholder="XP">
+          <input formControlName="xp" type="number" class="form-control" placeholder="XP"
+          [ngClass]="{'is-invalid': isInvalid('xp')}">
         </div>
         <div class="form-group col-6">
           <label>Legendary Actions</label>
@@ -124,12 +132,14 @@
         <div [formGroupName]="i" class="form-row">
           <div class="form-group col-6">
             <label>Speed {{i+1}}</label>
-            <ng-select formControlName="speed_type" [items]="speedList" [selectOnTab]="true" placeholder="Speed Type" class="form-control"></ng-select>
+            <ng-select formControlName="speed_type" [items]="speedList" [selectOnTab]="true" placeholder="Speed Type" class="form-control"
+            [ngClass]="{'is-invalid': isInvalid('speeds', i, 'speed_type')}"></ng-select>
           </div>
           <div class="form-group col-5">
             <label>Distance</label>
             <div class="input-group">
-              <input formControlName="speed" type="number" class="form-control" placeholder="Distance">
+              <input formControlName="speed" type="number" class="form-control" placeholder="Distance"
+              [ngClass]="{'is-invalid': isInvalid('speeds', i, 'speed')}">
               <div class="input-group-append">
                 <span class="input-group-text">ft.</span>
               </div>
@@ -165,7 +175,7 @@
                 <td class="align-middle">{{ability}}</td>
                 <td>
                   <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}} score"
-                  [ngClass]="{'is-invalid':(monsterForm.get('ability_scores').controls[i].touched || monsterForm.get('ability_scores').controls[i].dirty) && !monsterForm.get('ability_scores').controls[i].valid}">
+                  [ngClass]="{'is-invalid': isInvalid('ability_scores', i)}">
                 </td>
                 <td class="bonus align-middle">0</td>
               </tr>

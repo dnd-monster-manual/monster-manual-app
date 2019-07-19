@@ -18,7 +18,34 @@ hr {
   width: 100%;
 }
 
-// monster-form.component.scss
+/* ---------------------------------
+  ng-select Bootstrap style fixes
+  file(s): monster-form.component.scss
+--------------------------------- */
+// fix placeholder color
+ng-select.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  color: #636c72;
+}
+
+// reposition red 'x' to not be behind the dropdown arrow when invalid
+ng-select.form-control.ng-select.is-invalid {
+  background-position: center right calc(0.375em + 1.25rem);
+}
+
+// fix border/background color problems with the container within the select
 ng-select.form-control.ng-select > div.ng-select-container {
   border: none;
+  background-color: transparent;
+}
+
+// fix focused styles on normal and invalid inputs
+ng-select.form-control.ng-select.ng-select-focused .ng-select-container {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+ng-select.form-control.ng-select.is-invalid.ng-select-focused .ng-select-container {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }

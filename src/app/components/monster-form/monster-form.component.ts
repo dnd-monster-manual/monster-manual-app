@@ -12,8 +12,10 @@ import { Monster } from '../../models';
 export class MonsterFormComponent implements OnInit {
 
   @Input() monster = new Monster();
-  monsterForm: FormGroup;
+  @Input() isNewMonster: boolean = false;
   @Output() submitMonster = new EventEmitter<Monster>();
+  monsterForm: FormGroup;
+
   sizeList = [];
   typeList = [];
   alignmentList = [];
@@ -26,7 +28,6 @@ export class MonsterFormComponent implements OnInit {
   attackTypeList = [];
   tagList = [];
   skillList = [];
-  @Input() isNewMonster: boolean = false;
 
   constructor(private staticDataService: StaticDataService, private formService: FormService, private formBuilder: FormBuilder) { }
 
@@ -59,8 +60,8 @@ export class MonsterFormComponent implements OnInit {
        skills: this.formBuilder.array(this.formService.fillFormArray('skills', this.monster['skills'])),
        senses: this.formBuilder.array(this.formService.fillFormArray('senses', this.monster['senses'])),
        languages: [this.monster.languages],
-       cr: this.monster.cr,
-       xp: this.monster.xp,
+       cr: [this.monster.cr, [Validators.required]],
+       xp: [this.monster.xp, [Validators.required]],
        legendary_actions: this.monster.legendary_actions,
        abilities: this.formBuilder.array(this.formService.fillFormArray('abilities', this.monster['abilities'])),
        attacks: this.formBuilder.array(this.formService.fillFormArray('attacks', this.monster['attacks'])),
@@ -98,6 +99,20 @@ export class MonsterFormComponent implements OnInit {
       form[property] = this.monster[property];
     }
     this.monsterForm.patchValue(form);
+  }
+
+  isInvalid(property: string, index?: number, nestedProperty?: string) {
+    let control = this.monsterForm.get(property);
+    if(index !== undefined) {
+      control = (<FormArray>control).controls[index];
+      if(nestedProperty) {
+        control = (<FormGroup>control).controls[nestedProperty];
+      }      
+    }
+    // else {
+    //   control = this.monsterForm.get(property);
+    // }
+    return (control.touched || control.dirty) && !control.valid;
   }
 
   formatUrl(name: string) {
