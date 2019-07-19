@@ -148,7 +148,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Speed
-      <button (click)="resetFormArray('speeds')" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['speeds'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="speeds" *ngFor="let speedGroup of monsterForm.get('speeds').controls; let i = index">
         <div [formGroupName]="i" class="form-row">
@@ -180,7 +180,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Ability Scores &amp; Saves
-      <button (click)="resetMultiple(['ability_scores', 'saving_throws'])" class="btn btn-outline-light float-right">Reset</button>
+      <button (click)="resetFields(['ability_scores', 'saving_throws'])" class="btn btn-outline-light float-right">Reset</button>
     </h5>
     <div class="card-body">
       <div class="row">
@@ -226,7 +226,7 @@
   </div>
 
   <div class="card mb-3">
-    <h5 class="card-header bg-secondary text-light">Skills <button (click)="resetFormArray('skills')" class="btn btn-outline-light float-right">Reset</button></h5>
+    <h5 class="card-header bg-secondary text-light">Skills <button (click)="resetFields(['skills'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="skills" *ngFor="let skillGroup of monsterForm.get('skills').controls; let i = index">
         <div [formGroupName]="i" class="form-row">
@@ -253,7 +253,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Senses <small class="text-white-50">(Telepathy is included here)</small>
-      <button (click)="resetFormArray('senses')" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['senses'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="senses" *ngFor="let senseGroup of monsterForm.get('senses').controls; let i = index">
         <div [formGroupName]="i" class="form-row">
@@ -285,7 +285,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Abilities
-      <button (click)="resetFormArray('abilities')" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['abilities'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="abilities" *ngFor="let abilityGroup of monsterForm.get('abilities').controls; let i = index">
         <div [formGroupName]="i">
@@ -317,7 +317,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Attacks
-      <button (click)="resetFormArray('attacks')" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['attacks'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="attacks" *ngFor="let attackGroup of monsterForm.get('attacks').controls; let i = index">
         <div [formGroupName]="i">
@@ -387,8 +387,16 @@
   </div>
 
   <div class="card mb-3">
+    <h5 class="card-header bg-secondary text-light">Lair
+      <button class="btn btn-outline-light float-right">Reset</button></h5>
+    <div class="card-body">
+
+    </div>
+  </div>
+
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Other
-      <button (click)="resetMultiple(['climate', 'terrain', 'rarity', 'organization', 'activity_cycle', 'diet', 'physical_description', 'habitat_society', 'ecology'])"
+      <button (click)="resetFields(['climate', 'terrain', 'rarity', 'organization', 'activity_cycle', 'diet', 'physical_description', 'habitat_society', 'ecology'])"
       class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div class="form-row">
@@ -450,7 +458,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Magical Components
-      <button (click)="resetFormArray('item_components')" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['item_components'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="item_components" *ngFor="let senseGroup of monsterForm.get('item_components').controls; let i = index">
         <div [formGroupName]="i">
@@ -479,7 +487,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Monster Relationships
-      <button (click)="resetFormArray('monster_relationships')" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['monster_relationships'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="monster_relationships" *ngFor="let attackGroup of monsterForm.get('monster_relationships').controls; let i = index">
         <div [formGroupName]="i">

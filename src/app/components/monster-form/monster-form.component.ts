@@ -35,6 +35,8 @@ export class MonsterFormComponent implements OnInit {
     this.buildForm();
     this.buildStaticData();
 
+    this.resetFields(['xp', 'speeds', 'ability_scores', 'languages']);
+
     // Change url in real time as name is edited
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
@@ -45,29 +47,6 @@ export class MonsterFormComponent implements OnInit {
       this.toggleLegendaryTag(legendary);
       this.toggleLegendaryAbilityType(legendary);
     });
-  }
-
-  toggleLegendaryAbilityType(legendary: boolean) {
-    let abilities = this.monsterForm.get('abilities').value;
-    if(!legendary) {
-      let i = abilities.findIndex(a => a.ability_type == 'Legendary');
-      do {
-        abilities.splice(i, 1);
-        this.removeFormGroup('abilities', i);
-        i = abilities.findIndex(a => a.ability_type == 'Legendary');
-      } while(i !== -1)
-    }
-    this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
-  }
-
-  toggleLegendaryTag(legendary: boolean) {
-    let tags = this.monsterForm.get('tags').value;
-    if(legendary && tags.indexOf('legendary') == -1) tags.unshift('legendary');
-    else {
-      let i = tags.indexOf('legendary');
-      if(i !== -1) tags.splice(i, 1);
-    }
-    this.monsterForm.patchValue({ tags: tags });
   }
 
   buildForm() {
@@ -123,19 +102,42 @@ export class MonsterFormComponent implements OnInit {
     (<FormArray>this.monsterForm.get(property)).removeAt(i);
   }
 
-  // Reset all form groups and values in form array
-  resetFormArray(property: string) {
-    if(property == 'abilities') this.resetMultiple(['is_legendary']);
-    this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
-  }
-
-  // Reset multiple properties on form (usually not form arrays)
-  resetMultiple(properties: string[]) {
+  // Reset specified fields of the form
+  resetFields(properties: string[]) {
+    if(properties.indexOf('abilities') !== -1 && properties.indexOf('is_legendary') == -1)
+      properties.push('is_legendary');
     let form = {};
     for(let property of properties) {
-      form[property] = this.monster[property];
+      if(this.monsterForm.get(property) instanceof FormArray)
+        this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
+      else form[property] = this.monster[property];
     }
+    console.log(form);
     this.monsterForm.patchValue(form);
+  }
+
+  // Toggle legendary fields
+  toggleLegendaryAbilityType(legendary: boolean) {
+    let abilities = this.monsterForm.get('abilities').value;
+    if(!legendary) {
+      let i = abilities.findIndex(a => a.ability_type == 'Legendary');
+      do {
+        abilities.splice(i, 1);
+        this.removeFormGroup('abilities', i);
+        i = abilities.findIndex(a => a.ability_type == 'Legendary');
+      } while(i !== -1)
+    }
+    this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
+  }
+
+  toggleLegendaryTag(legendary: boolean) {
+    let tags = this.monsterForm.get('tags').value;
+    if(legendary && tags.indexOf('legendary') == -1) tags.unshift('legendary');
+    else {
+      let i = tags.indexOf('legendary');
+      if(i !== -1) tags.splice(i, 1);
+    }
+    this.monsterForm.patchValue({ tags: tags });
   }
 
   // Check to see if control for given property is valid
