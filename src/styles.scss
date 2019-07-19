@@ -18,6 +18,28 @@ hr {
   width: 100%;
 }
 
+/* Bootstrap overrides */
+.custom-switch.custom-switch-lg .custom-control-label {
+  cursor: pointer;
+}
+
+.custom-switch.custom-switch-lg .custom-control-label::before {
+  width: 3.75rem;
+  height: 2rem;
+  border-radius: 1.5rem;
+}
+
+.custom-switch.custom-switch-lg .custom-control-label::after {
+  width: calc(2rem - 4px);
+  height: calc(2rem - 4px);
+  border-radius: 1.5rem;
+}
+
+.custom-switch.custom-switch-lg .custom-control-input:checked ~ .custom-control-label::after {
+  -webkit-transform: translateX(1.75rem);
+  transform: translateX(1.75rem);
+}
+
 /* ---------------------------------
   ng-select Bootstrap style fixes
   file(s): monster-form.component.scss

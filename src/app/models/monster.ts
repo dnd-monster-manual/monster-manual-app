@@ -3,6 +3,7 @@ export class Monster {
   url: string;
   size: string;
   monster_type: string;
+  is_legendary: boolean;
   tags: string[];
   alignment: string;
   ac: number;
@@ -71,6 +72,7 @@ export class Monster {
     this.url = null;
     this.size = null;
     this.monster_type = null;
+    this.is_legendary = false;
     this.tags = [];
     this.alignment = null;
     this.ac = null;

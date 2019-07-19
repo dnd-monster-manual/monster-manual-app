@@ -1,6 +1,6 @@
 <form [formGroup]="monsterForm" (ngSubmit)="submit()" class="needs-validation" novalidate>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <div class="card-body">
       <div class="form-group">
         <label class="form-label-lg">Name</label>
@@ -37,11 +37,37 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <label>Tags</label>
-        <ng-select formControlName="tags" class="form-control" placeholder="Tags" multiple="true"
-        [items]="tagList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
-        <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
+      <div class="form-row">
+        <div class="col-12 col-lg-3 col-xl-1">
+          <div class="form-row">
+            <div class="col d-none d-md-block">
+              <label for="isLegendary">Legendary</label>
+            </div>
+            <div class="col-3 col-md-12">
+              <div class="form-group">
+                <div class="custom-control custom-switch custom-switch-lg">
+                  <input formControlName="is_legendary" class="custom-control-input" id="isLegendary" type="checkbox">
+                  <label class="custom-control-label" for="isLegendary"></label>
+                </div>
+              </div>
+            </div>
+            <div class="col-9 d-flex d-md-none">
+              <label class="my-auto" for="isLegendary">Legendary</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 col-xl-2" *ngIf="this.monsterForm.get('is_legendary').value">
+          <div class="form-group">
+            <label>Legendary Actions</label>
+            <input formControlName="legendary_actions" type="number" class="form-control" placeholder="Legendary Actions">
+          </div>
+        </div>
+        <div class="col">
+          <label>Tags</label>
+          <ng-select formControlName="tags" class="form-control" placeholder="Tags" multiple="true"
+          [items]="tagList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true" bindLabel="name" bindValue="name"></ng-select>
+          <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
+        </div>
       </div>
 
       <div class="form-row">
@@ -100,31 +126,27 @@
         </div>
       </div>
       <hr>
-      <div class="form-group">
-        <label>Languages</label>
-        <ng-select formControlName="languages" placeholder="Languages" multiple="true" class="form-control"
-        [items]="languageList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
-      </div>
       <div class="form-row">
-        <div class="form-group col-3">
+        <div class="form-group col">
+          <label>Languages</label>
+          <ng-select formControlName="languages" placeholder="Languages" multiple="true" class="form-control"
+          [items]="languageList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
+        </div>
+        <div class="form-group col-2">
           <label>CR</label>
           <input formControlName="cr" type="number" class="form-control" placeholder="CR"
           [ngClass]="{'is-invalid': isInvalid('cr')}">
         </div>
-        <div class="form-group col-3">
+        <div class="form-group col-2">
           <label>XP</label>
           <input formControlName="xp" type="number" class="form-control" placeholder="XP"
           [ngClass]="{'is-invalid': isInvalid('xp')}">
-        </div>
-        <div class="form-group col-6">
-          <label>Legendary Actions</label>
-          <input formControlName="legendary_actions" type="number" class="form-control" placeholder="Legendary Actions">
         </div>
       </div>
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Speed
       <button (click)="resetFormArray('speeds')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
@@ -156,7 +178,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Ability Scores &amp; Saves
       <button (click)="resetMultiple(['ability_scores', 'saving_throws'])" class="btn btn-outline-light float-right">Reset</button>
     </h5>
@@ -203,7 +225,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Skills <button (click)="resetFormArray('skills')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="skills" *ngFor="let skillGroup of monsterForm.get('skills').controls; let i = index">
@@ -229,7 +251,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Senses <small class="text-white-50">(Telepathy is included here)</small>
       <button (click)="resetFormArray('senses')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
@@ -261,7 +283,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Abilities
       <button (click)="resetFormArray('abilities')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
@@ -275,7 +297,7 @@
             </div>
             <div class="form-group col-12 col-sm-5">
               <label>Ability Type</label>
-              <ng-select formControlName="ability_type" [items]="abilityTypeList" [selectOnTab]="true" placeholder="Ability Type" class="form-control"
+              <ng-select formControlName="ability_type" [items]="abilityTypeList" bindValue="name" bindLabel="name" [selectOnTab]="true" placeholder="Ability Type" class="form-control"
               [ngClass]="{'is-invalid': isInvalid('abilities', i, 'ability_type')}"></ng-select>
             </div>
             <div class="form-group d-flex col">
@@ -293,7 +315,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Attacks
       <button (click)="resetFormArray('attacks')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
@@ -364,7 +386,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Other
       <button (click)="resetMultiple(['climate', 'terrain', 'rarity', 'organization', 'activity_cycle', 'diet', 'physical_description', 'habitat_society', 'ecology'])"
       class="btn btn-outline-light float-right">Reset</button></h5>
@@ -426,7 +448,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Magical Components
       <button (click)="resetFormArray('item_components')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
@@ -455,7 +477,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 ">
+  <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Monster Relationships
       <button (click)="resetFormArray('monster_relationships')" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">

@@ -34,9 +34,32 @@ export class MonsterFormComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.buildStaticData();
+
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
     );
+
+    this.monsterForm.get('is_legendary').valueChanges.subscribe(value => {
+      let newTags = this.monsterForm.get('tags').value;
+      let abilities = this.monsterForm.get('abilities').value;
+      console.log(this.monsterForm.get('abilities').value);
+      if(value) {
+        newTags.unshift('legendary');
+        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), value);
+      }
+      else {
+        let i = newTags.indexOf('legendary');
+        if(i !== -1) newTags.splice(i, 1);
+        let j = abilities.findIndex(a => a.ability_type == 'Legendary');
+        do {
+          abilities.splice(j, 1);
+          this.removeFormGroup('abilities', j);
+          j = abilities.findIndex(a => a.ability_type == 'Legendary');
+        } while(j !== -1)
+        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), value);
+      }
+      this.monsterForm.patchValue({ tags: newTags });
+    });
   }
 
   buildForm() {
@@ -45,6 +68,7 @@ export class MonsterFormComponent implements OnInit {
        size: [this.monster.size, [Validators.required]],
        monster_type: [this.monster.monster_type, [Validators.required]],
        alignment: [this.monster.alignment, [Validators.required]],
+       is_legendary: this.monster.is_legendary,
        tags: [this.monster.tags],
        ac: [this.monster.ac, [Validators.required]],
        ac_note: this.monster.ac_note,
@@ -90,6 +114,7 @@ export class MonsterFormComponent implements OnInit {
   }
 
   resetFormArray(property: string) {
+    if(property == 'abilities') this.resetMultiple(['is_legendary']);
     this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
   }
 
@@ -126,9 +151,9 @@ export class MonsterFormComponent implements OnInit {
     this.damageTypeList = this.staticDataService.getDamageTypes();
     this.conditionList = this.staticDataService.getConditions();
     this.senseList = this.staticDataService.getSenses();
-    this.abilityTypeList = this.staticDataService.getAbilityTypes();
+    this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), this.monster.is_legendary);
     this.attackTypeList = this.staticDataService.getAttackTypes();
-    this.tagList = this.staticDataService.getTags();
+    this.tagList = this.formService.setTags(this.staticDataService.getTags());
     this.skillList = this.staticDataService.getSkills();
   }
 

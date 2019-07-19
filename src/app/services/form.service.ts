@@ -114,4 +114,26 @@ export class FormService {
   buildSavingThrow(value: any): FormControl {
     return new FormControl(value, [Validators.required]);
   }
+
+  setTags(tags: string[]) {
+    let tagsList = [];
+    for(let tag of tags) {
+      tagsList.push({
+        name: tag,
+        disabled: tag == 'legendary'? true : false
+      });
+    }
+    return tagsList;
+  }
+
+  setAbilityTypes(abilityTypes: string[], isLegendary: boolean = false) {
+    let atList = [];
+    for(let at of abilityTypes) {
+      atList.push({
+        name: at,
+        disabled: at == 'Legendary'? !isLegendary : false
+      });
+    }
+    return atList;
+  }
 }
