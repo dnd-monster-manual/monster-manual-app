@@ -35,17 +35,22 @@ export class MonsterFormComponent implements OnInit {
     this.buildForm();
     this.buildStaticData();
 
+    // Change url in real time as name is edited
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
     );
 
-    this.monsterForm.get('is_legendary').valueChanges.subscribe(value => {
+    // Change related form fields based on whether or not the monster is legendary
+    this.monsterForm.get('is_legendary').valueChanges.subscribe(legendary => {
+      this.toggleLegendaryTag(legendary);
+      this.toggleLegendaryAbilityType(legendary);
+
       let newTags = this.monsterForm.get('tags').value;
       let abilities = this.monsterForm.get('abilities').value;
       console.log(this.monsterForm.get('abilities').value);
-      if(value) {
+      if(legendary) {
         newTags.unshift('legendary');
-        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), value);
+        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
       }
       else {
         let i = newTags.indexOf('legendary');
@@ -56,10 +61,33 @@ export class MonsterFormComponent implements OnInit {
           this.removeFormGroup('abilities', j);
           j = abilities.findIndex(a => a.ability_type == 'Legendary');
         } while(j !== -1)
-        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), value);
+        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
       }
       this.monsterForm.patchValue({ tags: newTags });
     });
+  }
+
+  toggleLegendaryAbilityType(legendary: boolean) {
+    let abilities = this.monsterForm.get('abilities').value;
+    if(!legendary) {
+      let i = abilities.findIndex(a => a.ability_type == 'Legendary');
+      do {
+        abilities.splice(i, 1);
+        this.removeFormGroup('abilities', i);
+        i = abilities.findIndex(a => a.ability_type == 'Legendary');
+      } while(i !== -1)
+    }
+    this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
+  }
+
+  toggleLegendaryTag(legendary: boolean) {
+    let tags = this.monsterForm.get('tags').value;
+    if(legendary && tags.indexOf('legendary') == -1) tags.unshift('legendary');
+    else {
+      let i = tags.indexOf('legendary');
+      if(i !== -1) tags.splice(i, 1);
+    }
+    this.monsterForm.patchValue({ tags: tags });
   }
 
   buildForm() {
@@ -103,21 +131,25 @@ export class MonsterFormComponent implements OnInit {
     });
   }
 
+  // Dynamically add form group to form array
   addFormGroup(property: string) {
     let formGroup = new FormGroup({});
     formGroup = <FormGroup>this.formService.buildFormElement(property, this.monster[property]);
     (<FormArray>this.monsterForm.get(property)).push(formGroup);
   }
 
+  // Remove form group from form array at given index
   removeFormGroup(property: string, i: number) {
     (<FormArray>this.monsterForm.get(property)).removeAt(i);
   }
 
+  // Reset all form groups and values in form array
   resetFormArray(property: string) {
     if(property == 'abilities') this.resetMultiple(['is_legendary']);
     this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
   }
 
+  // Reset multiple properties on form (usually not form arrays)
   resetMultiple(properties: string[]) {
     let form = {};
     for(let property of properties) {
@@ -126,6 +158,7 @@ export class MonsterFormComponent implements OnInit {
     this.monsterForm.patchValue(form);
   }
 
+  // Check to see if control for given property is valid
   isInvalid(property: string, index?: number, nestedProperty?: string) {
     let control = this.monsterForm.get(property);
     if(index !== undefined) {
@@ -137,6 +170,7 @@ export class MonsterFormComponent implements OnInit {
     return (control.touched || control.dirty) && !control.valid;
   }
 
+  // Format name to be url-friendly
   formatUrl(name: string) {
     var regex = /[^0-9a-zA-Z]/gi;
     return name.toLowerCase().replace(regex,'');
