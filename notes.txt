@@ -1,5 +1,13 @@
 checkbox "has lair"
 opens new form fields for lair info/actions
+- Lair description
+- Lair actions list (array)
+  - overall actions desc? / "lair action rules"
+- Lair Traits OR Regional Effects (?) (array)
+  - overall desc? / "x rules"
+- fade time for above (not always the same, include in desc?)
+
+calculate saves/bonuses from ability scores
 
 checkbox "2e info"??
 
@@ -11,6 +19,9 @@ parent object w/ descriptions, parent dropdown in monster? "angel, dragon, etc"
 
 x/day, recharge x, recharge short/long rest
 
-legendary checkbox
-
 save static data in database and retrieve from there
+
+-------------
+done:
+
+legendary checkbox
