@@ -44,26 +44,6 @@ export class MonsterFormComponent implements OnInit {
     this.monsterForm.get('is_legendary').valueChanges.subscribe(legendary => {
       this.toggleLegendaryTag(legendary);
       this.toggleLegendaryAbilityType(legendary);
-
-      let newTags = this.monsterForm.get('tags').value;
-      let abilities = this.monsterForm.get('abilities').value;
-      console.log(this.monsterForm.get('abilities').value);
-      if(legendary) {
-        newTags.unshift('legendary');
-        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
-      }
-      else {
-        let i = newTags.indexOf('legendary');
-        if(i !== -1) newTags.splice(i, 1);
-        let j = abilities.findIndex(a => a.ability_type == 'Legendary');
-        do {
-          abilities.splice(j, 1);
-          this.removeFormGroup('abilities', j);
-          j = abilities.findIndex(a => a.ability_type == 'Legendary');
-        } while(j !== -1)
-        this.abilityTypeList = this.formService.setAbilityTypes(this.staticDataService.getAbilityTypes(), legendary);
-      }
-      this.monsterForm.patchValue({ tags: newTags });
     });
   }
 
