@@ -37,37 +37,12 @@
           </div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="col-12 col-lg-3 col-xl-1">
-          <div class="form-row">
-            <div class="col d-none d-md-block">
-              <label for="isLegendary">Legendary</label>
-            </div>
-            <div class="col-3 col-md-12">
-              <div class="form-group">
-                <div class="custom-control custom-switch custom-switch-lg">
-                  <input formControlName="is_legendary" class="custom-control-input" id="isLegendary" type="checkbox">
-                  <label class="custom-control-label" for="isLegendary"></label>
-                </div>
-              </div>
-            </div>
-            <div class="col-9 d-flex d-md-none">
-              <label class="my-auto" for="isLegendary">Legendary</label>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-3 col-xl-2" *ngIf="this.monsterForm.get('is_legendary').value">
-          <div class="form-group">
-            <label>Legendary Actions</label>
-            <input formControlName="legendary_actions" type="number" class="form-control" placeholder="Legendary Actions">
-          </div>
-        </div>
-        <div class="col">
-          <label>Tags</label>
-          <ng-select formControlName="tags" class="form-control" placeholder="Tags" multiple="true"
-          [items]="tagList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true" bindLabel="name" bindValue="name"></ng-select>
-          <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
-        </div>
+
+      <div class="form-group">
+        <label>Tags</label>
+        <ng-select formControlName="tags" class="form-control" placeholder="Tags" multiple="true"
+        [items]="tagList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true" bindLabel="name" bindValue="name"></ng-select>
+        <small class="form-text text-muted">Press <code>Tab</code> or <code>Enter</code> to select a tag.</small>
       </div>
 
       <div class="form-row">
@@ -126,21 +101,44 @@
         </div>
       </div>
       <hr>
+      <div class="form-group">
+        <label>Languages</label>
+        <ng-select formControlName="languages" placeholder="Languages" multiple="true" class="form-control"
+        [items]="languageList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
+      </div>
+      <hr>
       <div class="form-row">
-        <div class="form-group col">
-          <label>Languages</label>
-          <ng-select formControlName="languages" placeholder="Languages" multiple="true" class="form-control"
-          [items]="languageList" [selectOnTab]="true" [hideSelected]="true" [addTag]="true"></ng-select>
-        </div>
-        <div class="form-group col-2">
+        <div class="form-group col-3">
           <label>CR</label>
           <input formControlName="cr" type="number" class="form-control" placeholder="CR"
           [ngClass]="{'is-invalid': isInvalid('cr')}">
         </div>
-        <div class="form-group col-2">
+        <div class="form-group col-3">
           <label>XP</label>
           <input formControlName="xp" type="number" class="form-control" placeholder="XP"
           [ngClass]="{'is-invalid': isInvalid('xp')}">
+        </div>
+        <div class="col-1">
+          <label for="hasLair">Lair</label>
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-lg">
+              <input formControlName="has_lair" class="custom-control-input" id="hasLair" type="checkbox">
+              <label class="custom-control-label" for="hasLair"></label>
+            </div>
+          </div>
+        </div>
+        <div class="col-1">
+          <label for="isLegendary">Legendary</label>
+          <div class="form-group">
+            <div class="custom-control custom-switch custom-switch-lg">
+              <input formControlName="is_legendary" class="custom-control-input" id="isLegendary" type="checkbox">
+              <label class="custom-control-label" for="isLegendary"></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col" *ngIf="monsterForm.get('is_legendary').value">
+          <label>Legendary Actions</label>
+          <input formControlName="legendary_actions" type="number" class="form-control" placeholder="Legendary Actions">
         </div>
       </div>
     </div>
@@ -285,7 +283,7 @@
 
   <div class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Abilities
-      <button (click)="resetFields(['abilities'])" class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['abilities', 'is_legendary', 'legendary_actions'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div formArrayName="abilities" *ngFor="let abilityGroup of monsterForm.get('abilities').controls; let i = index">
         <div [formGroupName]="i">
@@ -386,21 +384,39 @@
     </div>
   </div>
 
-  <div class="card mb-3">
+  <div *ngIf="monsterForm.get('has_lair').value" class="card mb-3">
     <h5 class="card-header bg-secondary text-light">Lair
-      <button class="btn btn-outline-light float-right">Reset</button></h5>
+      <button (click)="resetFields(['has_lair', 'lair_description', 'lair_action_rules', 'lair_actions', 'lair_effect_rules', 'lair_effects'])" class="btn btn-outline-light float-right">Reset</button></h5>
     <div class="card-body">
       <div class="form-group">
         <label>Lair Description</label>
-        <textarea formControlName="lair_description" class="form-control" rows="5" placeholder="Lair description"></textarea>
+        <textarea formControlName="lair_description" class="form-control" rows="3" placeholder="Lair description"></textarea>
+      </div>
+      <h5>Lair Actions</h5>
+      <div class="form-group">
+        <label>Lair Action Rules</label>
+        <textarea formControlName="lair_action_rules" class="form-control" rows="3" placeholder="Lair action rules"></textarea>
+      </div>
+      <div formArrayName="lair_actions" class="form-group" *ngFor="let lairActionGroup of monsterForm.get('lair_actions').controls; let i = index">
+        <label>Lair Action {{i+1}}</label>
+        <textarea [formControlName]="i" class="form-control" rows="3" placeholder="Lair action"
+        [ngClass]="{'is-invalid': isInvalid('lair_actions', i)}"></textarea>
       </div>
       <div class="form-group">
-        <label>Lair Actions</label>
-        <textarea formControlName="lair_actions" class="form-control" rows="5" placeholder="Lair actions"></textarea>
+        <button (click)="addFormGroup('lair_actions')" class="btn btn-outline-secondary btn-block">Add Lair Action</button>
+      </div>
+      <h5>Lair Effects</h5>
+      <div class="form-group">
+        <label>Lair Effect Rules</label>
+        <textarea formControlName="lair_effect_rules" class="form-control" rows="3" placeholder="Lair effect rules"></textarea>
+      </div>
+      <div formArrayName="lair_effects" class="form-group" *ngFor="let lairEffectGroup of monsterForm.get('lair_effects').controls; let i = index">
+        <label>Lair Effect {{i+1}}</label>
+        <textarea [formControlName]="i" class="form-control" rows="3" placeholder="Lair effect"
+        [ngClass]="{'is-invalid': isInvalid('lair_effects', i)}"></textarea>
       </div>
       <div class="form-group">
-        <label>Lair Traits or Regional Effects</label>
-        <textarea formControlName="regional_effects" class="form-control" rows="10" placeholder="Regional effects"></textarea>
+        <button (click)="addFormGroup('lair_effects')" class="btn btn-outline-secondary btn-block">Add Lair Effect</button>
       </div>
     </div>
   </div>

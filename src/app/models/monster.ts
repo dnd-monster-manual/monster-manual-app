@@ -66,6 +66,12 @@ export class Monster {
     monster_name: string,
     relationship: string
   }[];
+  has_lair: boolean;
+  lair_description: string;
+  lair_action_rules: string;
+  lair_actions: string[];
+  lair_effect_rules: string;
+  lair_effects: string[];
 
   constructor() {
     this.name = null;
@@ -105,5 +111,11 @@ export class Monster {
     this.ecology = null;
     this.item_components = [];
     this.monster_relationships = [];
+    this.has_lair = false;
+    this.lair_description = null;
+    this.lair_action_rules = null;
+    this.lair_actions = [];
+    this.lair_effect_rules = null;
+    this.lair_effects = [];
   }
 }

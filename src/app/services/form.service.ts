@@ -46,6 +46,12 @@ export class FormService {
       case "saving_throws": {
         return this.buildSavingThrow(values);
       }
+      case "lair_actions": {
+        return this.buildLairAction(values);
+      }
+      case "lair_effects": {
+        return this.buildLairEffect(values);
+      }
     }
   }
 
@@ -113,6 +119,14 @@ export class FormService {
 
   buildSavingThrow(value: any): FormControl {
     return new FormControl(value, [Validators.required]);
+  }
+
+  buildLairAction(value: any): FormControl {
+    return new FormControl(value?value:null, [Validators.required]);
+  }
+
+  buildLairEffect(value: any): FormControl {
+    return new FormControl(value?value:null, [Validators.required]);
   }
 
   setTags(tags: string[]) {

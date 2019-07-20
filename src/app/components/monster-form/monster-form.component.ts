@@ -34,9 +34,6 @@ export class MonsterFormComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.buildStaticData();
-
-    this.resetFields(['xp', 'speeds', 'ability_scores', 'languages']);
-
     // Change url in real time as name is edited
     this.monsterForm.get('name').valueChanges.subscribe(
       value => this.monster.url = this.formatUrl(value)
@@ -47,6 +44,11 @@ export class MonsterFormComponent implements OnInit {
       this.toggleLegendaryTag(legendary);
       this.toggleLegendaryAbilityType(legendary);
     });
+
+    // Wipe lair fields when has lair is false
+    this.monsterForm.get('has_lair').valueChanges.subscribe(
+      lair => { if(lair) this.wipeLairInfo() }
+    );
   }
 
   buildForm() {
@@ -76,6 +78,12 @@ export class MonsterFormComponent implements OnInit {
        legendary_actions: this.monster.legendary_actions,
        abilities: this.formBuilder.array(this.formService.fillFormArray('abilities', this.monster['abilities'])),
        attacks: this.formBuilder.array(this.formService.fillFormArray('attacks', this.monster['attacks'])),
+       has_lair: this.monster.has_lair,
+       lair_description: this.monster.lair_description,
+       lair_action_rules: this.monster.lair_action_rules,
+       lair_actions: this.formBuilder.array(this.formService.fillFormArray('lair_actions', this.monster['lair_actions'])),
+       lair_effect_rules: this.monster.lair_effect_rules,
+       lair_effects: this.formBuilder.array(this.formService.fillFormArray('lair_effects', this.monster['lair_effects'])),
        climate: [this.monster.climate],
        terrain: [this.monster.terrain],
        rarity: this.monster.rarity,
@@ -91,9 +99,9 @@ export class MonsterFormComponent implements OnInit {
   }
 
   // Dynamically add form group to form array
-  addFormGroup(property: string) {
+  addFormGroup(property: string, monsterProp?: any) {
     let formGroup = new FormGroup({});
-    formGroup = <FormGroup>this.formService.buildFormElement(property, this.monster[property]);
+    formGroup = <FormGroup>this.formService.buildFormElement(property, monsterProp);
     (<FormArray>this.monsterForm.get(property)).push(formGroup);
   }
 
@@ -104,12 +112,11 @@ export class MonsterFormComponent implements OnInit {
 
   // Reset specified fields of the form
   resetFields(properties: string[]) {
-    if(properties.indexOf('abilities') !== -1 && properties.indexOf('is_legendary') == -1)
-      properties.push('is_legendary', 'legendary_actions');
     let form = {};
     for(let property of properties) {
-      if(this.monsterForm.get(property) instanceof FormArray)
+      if(this.monsterForm.get(property) instanceof FormArray) {
         this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
+      }
       else form[property] = this.monster[property];
     }
     this.monsterForm.patchValue(form);
@@ -137,6 +144,21 @@ export class MonsterFormComponent implements OnInit {
       if(i !== -1) tags.splice(i, 1);
     }
     this.monsterForm.patchValue({ tags: tags });
+  }
+
+  // Remove lair info when unchecked
+  wipeLairInfo() {
+    while(this.monsterForm.get('lair_actions').value.length > 0) {
+      this.removeFormGroup('lair_actions', 0);
+    }
+    while(this.monsterForm.get('lair_effects').value.length > 0) {
+      this.removeFormGroup('lair_effects', 0);
+    }
+    this.monsterForm.patchValue({
+      lair_description: null,
+      lair_action_rules: null,
+      lair_effect_rules: null
+    });
   }
 
   // Check to see if control for given property is valid
