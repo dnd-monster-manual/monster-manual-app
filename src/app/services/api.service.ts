@@ -28,6 +28,10 @@ export class ApiService {
   }
 
   createMonster(monster: Monster): Observable<HttpResponse<any>> {
-    return this.http.post<any>(this.ApiBaseUrl+'monsters', monster);
+    return this.http.post<any>(this.ApiBaseUrl+'monsters', monster, {observe: 'response'});
+  }
+
+  updateMonster(monster: Monster): Observable<HttpResponse<any>> {
+    return this.http.put<any>(this.ApiBaseUrl+'monsters/' + monster.url, monster, {observe: 'response'});
   }
 }

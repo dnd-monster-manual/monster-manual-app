@@ -101,7 +101,7 @@ export class MonsterFormComponent implements OnInit {
   // Dynamically add form group to form array
   addFormGroup(property: string, monsterProp?: any) {
     let formGroup = new FormGroup({});
-    formGroup = <FormGroup>this.formService.buildFormElement(property, monsterProp);
+    formGroup = this.formService.buildFormElement(property, monsterProp);
     (<FormArray>this.monsterForm.get(property)).push(formGroup);
   }
 
@@ -115,7 +115,9 @@ export class MonsterFormComponent implements OnInit {
     let form = {};
     for(let property of properties) {
       if(this.monsterForm.get(property) instanceof FormArray) {
-        this.monsterForm.setControl(property, this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property])));
+        let f = this.formBuilder.array(this.formService.fillFormArray(property, this.monster[property]));
+        this.monsterForm.setControl(property, f);
+        console.log(property, this.monster[property], this.monsterForm.get(property), f);
       }
       else form[property] = this.monster[property];
     }

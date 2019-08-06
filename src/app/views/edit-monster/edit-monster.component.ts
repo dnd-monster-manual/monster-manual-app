@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Monster } from '../../models';
+import { ApiService } from '../../services';
 
 @Component({
   selector: 'app-edit-monster',
@@ -10,13 +11,13 @@ import { Monster } from '../../models';
 export class EditMonsterComponent implements OnInit {
 monster: Monster;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit() {
     this.monster = this.route.snapshot.data.monster.body;
   }
 
   updateMonster(monster: Monster) {
-    //this.apiService.createMonster(monster);
+    this.apiService.updateMonster(monster).subscribe();
   }
 }

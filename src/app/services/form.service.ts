@@ -11,8 +11,11 @@ export class FormService {
 
   fillFormArray(property: string, propertyArray: any[]) {
     let formArray = [];
-    for(let propertyValues of propertyArray) {
-      formArray.push(this.buildFormElement(property, propertyValues));
+    if(propertyArray)
+    {
+      for(let propertyValues of propertyArray) {
+        formArray.push(this.buildFormElement(property, propertyValues));
+      }
     }
     return formArray;
   }
