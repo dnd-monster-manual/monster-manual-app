@@ -47,7 +47,7 @@ export class MonsterFormComponent implements OnInit {
 
     // Wipe lair fields when has lair is false
     this.monsterForm.get('has_lair').valueChanges.subscribe(
-      lair => { if(lair) this.wipeLairInfo() }
+      lair => { if(!lair) this.wipeLairInfo() }
     );
   }
 
