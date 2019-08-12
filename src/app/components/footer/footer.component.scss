@@ -9,3 +9,12 @@
   // background-color: #f5f5f5;
   z-index: 2;
 }
+
+.link-unstyled {
+  color: inherit;
+}
+
+ .link-unstyled:hover {
+  color: #212529;
+  text-decoration: none;
+}
