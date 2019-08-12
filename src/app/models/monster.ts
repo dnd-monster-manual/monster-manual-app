@@ -49,6 +49,7 @@ export class Monster {
     effect: string
   }[];
   legendary_actions: number;
+  lore: string;
   climate: string[];
   terrain: string[];
   rarity: string;

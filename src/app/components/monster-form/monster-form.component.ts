@@ -84,6 +84,7 @@ export class MonsterFormComponent implements OnInit {
        lair_actions: this.formBuilder.array(this.formService.fillFormArray('lair_actions', this.monster['lair_actions'])),
        lair_effect_rules: this.monster.lair_effect_rules,
        lair_effects: this.formBuilder.array(this.formService.fillFormArray('lair_effects', this.monster['lair_effects'])),
+       lore: this.monster.lore,
        climate: [this.monster.climate],
        terrain: [this.monster.terrain],
        rarity: this.monster.rarity,

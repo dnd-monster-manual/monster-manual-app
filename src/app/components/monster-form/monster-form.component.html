@@ -422,7 +422,19 @@
   </div>
 
   <div class="card mb-3">
-    <h5 class="card-header bg-secondary text-light">Other
+    <h5 class="card-header bg-secondary text-light">Misc.
+      <button (click)="resetFields(['lore'])" class="btn btn-outline-light float-right" type="button">Reset</button></h5>
+    <div class="card-body">
+      <div class="form-group">
+        <label>Lore</label>
+        <textarea formControlName="lore" class="form-control" rows="10" placeholder="Monster lore"
+        [ngClass]="{'is-invalid': isInvalid('lore')}"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <h5 class="card-header bg-secondary text-light">AD&amp;D 2E Lore
       <button (click)="resetFields(['climate', 'terrain', 'rarity', 'organization', 'activity_cycle', 'diet', 'physical_description', 'habitat_society', 'ecology'])"
       class="btn btn-outline-light float-right" type="button">Reset</button></h5>
     <div class="card-body">
