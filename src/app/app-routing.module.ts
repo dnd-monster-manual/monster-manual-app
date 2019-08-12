@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AllMonstersComponent, ViewMonsterComponent, NewMonsterComponent, EditMonsterComponent } from './views';
+import { AllMonstersComponent, ViewMonsterComponent, NewMonsterComponent, EditMonsterComponent, AllMetadataComponent } from './views';
 import { MonstersResolver, MonsterResolver } from './resolvers';
 
 const routes: Routes = [
@@ -49,6 +49,10 @@ const routes: Routes = [
     resolve: {
       monster: MonsterResolver
     }
+  },
+  {
+    path: 'metadata',
+    component: AllMetadataComponent
   }
 ];
 

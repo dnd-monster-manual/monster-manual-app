@@ -14,6 +14,7 @@ import { ViewMonsterComponent } from './views/view-monster/view-monster.componen
 import { NewMonsterComponent } from './views/new-monster/new-monster.component';
 import { MonsterFormComponent } from './components/monster-form/monster-form.component';
 import { EditMonsterComponent } from './views/edit-monster/edit-monster.component';
+import { AllMetadataComponent } from './views/all-metadata/all-metadata.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EditMonsterComponent } from './views/edit-monster/edit-monster.componen
     ViewMonsterComponent,
     NewMonsterComponent,
     MonsterFormComponent,
-    EditMonsterComponent
+    EditMonsterComponent,
+    AllMetadataComponent
   ],
   imports: [
     BrowserModule,
