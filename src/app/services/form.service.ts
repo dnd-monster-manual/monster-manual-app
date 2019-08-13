@@ -117,11 +117,15 @@ export class FormService {
   }
 
   buildAbilityScore(value: any): FormControl {
-    return new FormControl(value, [Validators.required, Validators.min(0)]);
+    return new FormControl(value?value:8, [Validators.required, Validators.min(0)]);
   }
 
   buildSavingThrow(value: any): FormControl {
     return new FormControl(value, [Validators.required]);
+  }
+
+  calculateAbilityMod(score: number) {
+    return Math.floor((score - 10) / 2);
   }
 
   buildLairAction(value: any): FormControl {

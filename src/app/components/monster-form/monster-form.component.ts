@@ -174,7 +174,7 @@ export class MonsterFormComponent implements OnInit {
       }
     }
     return (control.touched || control.dirty) && !control.valid;
-  }
+  }  
 
   // Format name to be url-friendly
   formatUrl(name: string) {
