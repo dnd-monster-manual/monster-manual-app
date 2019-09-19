@@ -1,4 +1,195 @@
 <div class="container">
+
+  <h1>{{monster.name}}</h1>
+  <p class="font-italic">{{monster.size}} {{monster.alignment}} {{monster.monster_type}} <span *ngIf="monster.tags.length > 0">({{monster.tags}})</span></p>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  AC: {{monster.ac}} <span *ngIf="monster.ac_note">({{monster.ac_note}})</span>
+                </div>
+                <div class="col">
+                  HP: {{monster.hp}} ({{monster.hd}})
+                </div>
+                <div class="col">
+                  CR: {{monster.cr}} ({{monster.xp}} XP)
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  {{monster.immunities}}
+                </div>
+                <div class="col">
+                  {{monster.resistances}}
+                </div>
+                <div class="col">
+                  {{monster.vulnerabilities}}
+                </div>
+                <div class="col">
+                  {{monster.condition_immunities}}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-2">Speeds</div>
+                <div class="col" *ngFor="let speed of monster.speeds">
+                  {{speed.speed_type}}: {{speed.speed}} ft.
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-2">Senses</div>
+                <div class="col" *ngFor="let sense of monster.senses">
+                  {{sense.sense}}: {{sense.distance}} ft.
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col">
+                  <span *ngIf="monster.has_lair">Lair</span>
+                </div>
+                <div class="col">
+                  <span *ngIf="monster.is_legendary">Legendary</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h5>Ability scores</h5>
+          <div class="row">
+            <div class="col-8 pr-0">
+              <table class="table table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th colspan="2">Score</th>
+                    <th>Bonus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let ability of monster.ability_scores; let i = index">
+                    <td class="align-middle">{{abilityScoreList[i]}}</td>
+                    <td>{{ability}}</td>
+                    <td class="bonus align-middle">{{calculateBonus(ability)}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-4 pl-0">
+              <table class="table table-bordered text-center border-left-0">
+                <thead>
+                  <tr>
+                    <th class="border-left-0">Save</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let save of monster.saving_throws; let i = index">
+                    <td class="border-left-0">{{save}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <h5>Skill bonuses</h5>
+          <table class="table table-sm table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let skill of skills">
+                <td>{{skill.skill}}</td>
+                <td>{{skill.bonus}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attacks" *ngIf="monster.attacks.length > 0">
+    <h3>Attacks</h3>
+    <div class="card" *ngFor="let attack of monster.attacks">
+      <div class="card-header">
+        {{attack.weapon}} <em>action</em>
+      </div>
+      <div class="card-body">
+        <div>
+          <em>{{attack.attack_type}}:</em>
+        </div>
+        <div>
+          {{attack.to_hit}} to hit,
+          <span *ngIf="attack.reach">reach {{attack.reach}} ft., </span>
+          <span *ngIf="attack.range">range {{attack.range}} ft., </span>
+          {{attack.num_targets}} target(s).
+        </div>
+        <div>
+          <em>On hit:</em> {{attack.average_damage}} ({{attack.damage}}) {{attack.damage_type}} damage.
+          <div>
+            {{attack.effect}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="abilities" *ngIf="monster.abilities.length > 0">
+    <h3>Abilities</h3>
+    <div class="card" *ngFor="let ability of monster.abilities">
+      <div class="card-header">
+        {{ability.name}} <em>{{ability.ability_type}}</em>
+      </div>
+      <div class="card-body">
+        {{ability.effect}}
+      </div>
+    </div>
+  </div>
+
+  <h3>Lore</h3>
+  <div class="card">
+    <div class="card-body">
+      <p>{{monster.lore}}</p>
+    </div>
+  </div>
+
+<h3>Other Info</h3>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col"><p>Climate: <span *ngFor="let climate of monster.climate">{{climate}}, </span></p></div>
+        <div class="col"><p>Terrain: <span *ngFor="let terrain of monster.terrain">{{terrain}}, </span></p></div>
+      </div>
+      <div class="row">
+        <div class="col"><p>Rarity: {{monster.rarity}}</p></div>
+        <div class="col"><p>Organization: {{monster.organization}}</p></div>
+      </div>
+      <div class="row">
+        <div class="col"><p>Activity Cycle: {{monster.activity_cycle}}</p></div>
+        <div class="col"><p>Diet: {{monster.diet}}</p></div>
+      </div>
+      <hr>
+      <p>Physical Description: {{monster.physical_description}}</p>
+      <p>Habitat/Society: {{monster.habitat_society}}</p>
+      <p>Ecology: {{monster.ecology}}</p>
+      <hr>
+      <p *ngIf="monster.item_components.length > 0">Magical Item Components: <span *ngFor="let item of monster.item_components"><em>{{item.item}}</em> - {{item.source}}</span></p>
+      <p *ngIf="monster.monster_relationships.length > 0">Monster Relationships: <span *ngFor="let rel of monster.monster_relationships">{{rel.monster_name}}: {{rel.relationship}}</span></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- <div class="container">
   <h1>{{monster.name}}</h1>
   <p><em>{{monster.size}} {{monster.monster_type}}, {{monster.alignment}}</em></p>
   <p *ngIf="monster.tags.length > 0">tags: <span *ngFor="let tag of monster.tags">{{tag}},</span></p>
@@ -56,7 +247,6 @@
           </tr>
         </tbody>
       </table>
-      <!-- <p>Skills: <span *ngFor="let skill of monster.skills">{{skill.skill}}: {{skill.bonus}}, </span></p> -->
     </div>
   </div>
 
@@ -110,4 +300,4 @@
   <p>Ecology: {{monster.ecology}}</p>
   <p *ngIf="monster.item_components.length > 0">Magical Item Components: <span *ngFor="let item of monster.item_components"><em>{{item.item}}</em> - {{item.source}}</span></p>
   <p *ngIf="monster.monster_relationships.length > 0">Monster Relationships: <span *ngFor="let rel of monster.monster_relationships">{{rel.monster_name}}: {{rel.relationship}}</span></p>
-</div>
+</div> -->
