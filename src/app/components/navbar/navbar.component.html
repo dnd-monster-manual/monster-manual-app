@@ -12,10 +12,19 @@
         <a class="nav-link" routerLink='/monsters/new'>Add Monster</a>
       </li>
     </ul>
-    <!-- <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search"
-      aria-label="Search" [(ngModel)]="searchValue" (input)="updateSearchValue()" [ngModelOptions]="{standalone: true}">
-    </form> -->
+    <form class="form-inline" [formGroup]="navbarSearchForm">
+      <div class="input-group">
+        <input formControlName="navbarSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </form>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink='/metadata'>Metadata</a>
+      </li>
+    </ul>
   </div>
 </nav>
 <router-outlet></router-outlet>

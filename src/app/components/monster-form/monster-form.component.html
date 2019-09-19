@@ -197,7 +197,7 @@
                   <input [formControlName]="i" type="number" class="form-control" placeholder="{{ability}} score"
                   [ngClass]="{'is-invalid': isInvalid('ability_scores', i)}">
                 </td>
-                <td class="bonus align-middle">0</td>
+                <td class="bonus align-middle">{{formService.calculateAbilityMod(monsterForm.get('ability_scores').value[i])}}</td>
               </tr>
             </tbody>
           </table>

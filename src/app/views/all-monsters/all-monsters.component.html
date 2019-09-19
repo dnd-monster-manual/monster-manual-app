@@ -3,15 +3,15 @@
     <thead class="thead-dark">
       <tr>
         <th>Name</th>
-        <th>View</th>
-        <th>Edit</th>
+        <th class="text-center fit-content">View</th>
+        <th class="text-center fit-content">Edit</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let monster of monsters">
         <td>{{monster.name}}</td>
-        <td><button class="btn btn-sm btn-outline-dark" [routerLink]="[monster.url + '/view']"><i class="fas fa-eye"></i></button></td>
-        <td><button class="btn btn-sm btn-outline-dark" [routerLink]="[monster.url + '/edit']"><i class="fas fa-pen"></i></button></td>
+        <td class="text-center"><button class="btn btn-sm btn-icon" [routerLink]="[monster.url + '/view']"><i class="fas fa-eye"></i></button></td>
+        <td class="text-center"><button class="btn btn-sm btn-icon" [routerLink]="[monster.url + '/edit']"><i class="fas fa-pen"></i></button></td>
       </tr>
     </tbody>
   </table>

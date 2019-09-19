@@ -1,0 +1,24 @@
+/* Muted, borderless button for clickable icons */
+
+.btn-icon,
+.btn-icon:hover:disabled {
+  color: #abb0b5;
+}
+
+.btn-icon:hover:enabled {
+  color: #212529;
+  // background-color: #E9ECEF;
+  border-color: #212529;
+}
+
+/* Light-colored table hover */
+
+// .table-hover-light tbody tr:hover {
+//   background-color: #F8F9FA;
+// }
+
+/* Fit icon columns */
+
+.fit-content {
+  width: 60px;
+}

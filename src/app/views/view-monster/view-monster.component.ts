@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { StaticDataService } from '../../services';
 
 @Component({
   selector: 'app-view-monster',
@@ -9,12 +10,14 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewMonsterComponent implements OnInit {
 monster;
 skills;
+abilityScoreList;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private staticDataService: StaticDataService) { }
 
   ngOnInit() {
     this.monster = this.route.snapshot.data.monster.body;
     this.calculateSkills();
+    this.abilityScoreList = this.staticDataService.getAbilityScores();
   }
 
   calculateSkills() {
