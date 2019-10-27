@@ -49,6 +49,8 @@ export class MonsterFormComponent implements OnInit {
     this.monsterForm.get('has_lair').valueChanges.subscribe(
       lair => { if(!lair) this.wipeLairInfo() }
     );
+
+    this.changes();
   }
 
   buildForm() {
@@ -96,6 +98,13 @@ export class MonsterFormComponent implements OnInit {
        ecology: this.monster.ecology,
        item_components: this.formBuilder.array(this.formService.fillFormArray('item_components', this.monster['item_components'])),
        monster_relationships: this.formBuilder.array(this.formService.fillFormArray('monster_relationships', this.monster['monster_relationships']))
+    });
+  }
+
+  // TO DO: Dynamic range/reach based on selected attack type
+  changes() {
+    this.monsterForm.get('attacks').valueChanges.subscribe(val => {
+      console.log(val);
     });
   }
 
@@ -174,12 +183,27 @@ export class MonsterFormComponent implements OnInit {
       }
     }
     return (control.touched || control.dirty) && !control.valid;
-  }  
+  }
 
   // Format name to be url-friendly
   formatUrl(name: string) {
     var regex = /[^0-9a-zA-Z]/gi;
     return name.toLowerCase().replace(regex,'');
+  }
+
+  // Show range/reach based on attack type
+  isRanged(i: nmumber) {
+    var attackType = this.monsterForm.get('attacks').controls[i].get('attack_type').value;
+    return attackType == 'Ranged weapon' || attackType == 'Ranged spell';
+    //console.log(this.monsterForm);
+    //console.log(this.monsterForm.get('attacks').controls[0].get('attack_type').value);
+  }
+
+  isMelee(i: nmumber) {
+    var attackType = this.monsterForm.get('attacks').controls[i].get('attack_type').value;
+    return attackType == 'Melee weapon' || attackType == 'Melee spell';
+    //console.log(this.monsterForm);
+    //console.log(this.monsterForm.get('attacks').controls[0].get('attack_type').value);
   }
 
   buildStaticData() {

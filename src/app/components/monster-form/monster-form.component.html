@@ -339,17 +339,15 @@
               <input formControlName="to_hit" type="number" class="form-control" placeholder="To hit"
               [ngClass]="{'is-invalid': isInvalid('attacks', i, 'to_hit')}">
             </div>
-            <div class="form-group col-6 col-sm-4 col-lg-2">
-              <div class="input-group">
+            <div class="form-group col-12 col-sm-8 col-lg-4">
+              <div *ngIf="isMelee(i)" class="input-group">
                 <input formControlName="reach" type="number" class="form-control" placeholder="Reach"
                 [ngClass]="{'is-invalid': isInvalid('attacks', i, 'reach')}">
                 <div class="input-group-append">
                   <span class="input-group-text">ft.</span>
                 </div>
               </div>
-            </div>
-            <div class="form-group col-sm-4 col-lg-2">
-              <div class="input-group">
+              <div *ngIf="isRanged(i)" class="input-group">
                 <input formControlName="range" type="text" class="form-control" placeholder="Range"
                 [ngClass]="{'is-invalid': isInvalid('attacks', i, 'range')}">
                 <div class="input-group-append">

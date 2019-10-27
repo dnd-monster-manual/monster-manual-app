@@ -44,7 +44,7 @@ export class StaticDataService {
   }
 
   getAttackTypes() {
-    return ["Melee weapon", "Ranged weapon", "Melee spell", "Ranged spell", "Melee or ranged weapon", "Melee or ranged spell"];
+    return ["Melee weapon", "Ranged weapon", "Melee spell", "Ranged spell"];
   }
 
   getTags() {

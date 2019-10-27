@@ -94,6 +94,8 @@ export class FormService {
     });
   }
 
+  buildRangeReach
+
   buildAbility(values: any): FormGroup {
     return this.formBuilder.group({
       name: [values?values['name']:null, [Validators.required]],
